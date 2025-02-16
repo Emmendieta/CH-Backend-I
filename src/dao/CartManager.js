@@ -29,22 +29,32 @@ class CartManager {
                 let carts = await this.getCarts();
                 let id = 1;
                 if (carts.length > 0) { id = Math.max(...carts.map (cart => cart.id)) + 1; }
+                //Creo el arreglo vacio para los productos a agregar en el carrito nuevo:
+                let newProductos = [];
+                //Recorro el array de productos brindados:
+                for (let product of products) {
+                    //btengo los datos del producto de la Base de Datos:
+                    let productBD = await PRODUCT_MANAGER.getProduct(product.id);
+                    if (productBD) {
+                        //Creo el nuevo producto con la informacion:
+                        let newProduct = { id: productBD.id, quantity: 1};
+                        //Almaceno el nuevo producto en el array:
+                        newProductos.push(newProduct);
+                    } else { throw new Error(`Error: No se encontró el producto con el id: ${product.id}!!!`); }
+                }
+                //Creo el nuevo carrito con los datos requeridos:
+                let newCart = {id: id, products: newProductos};
+                // Verificamos si el carrito con los mismos productos ya existe
+                let cartExistente = true;
+                cartExistente = carts.find(cartDB => {
+                    const cartProductsSorted = cartDB.products.sort((a, b) => a.id - b.id);
+                    return JSON.stringify(cartProductsSorted) === JSON.stringify(newProductos);
+                });
+                // Si ya existe, no se agrega:
+                if (cartExistente) { console.error("Error: Esta intentanto crear un carrito que ya existe! Ya que solicito almacenar con los mismos productos y la misma cantidad!"); 
+                    return
+                }
                 else {
-                    //Creo el arreglo vacio para los productos a agregar en el carrito nuevo:
-                    let newProductos = [];
-                    //Recorro el array de productos brindados:
-                    for (let product of products) {
-                        //btengo los datos del producto de la Base de Datos:
-                        let productBD = await PRODUCT_MANAGER.getProduct(product.id);
-                        if (productBD) {
-                            //Creo el nuevo producto para luego almacenarlo:
-                            let newProduct = { id: productBD.id, quantity: product.quantity};
-                            //Almaceno el nuevo producto en el array:
-                            newProductos.push(newProduct);
-                        } else { throw new Error(`Error: No se encontró el producto con el id: ${product.id}!!!`); }
-                    }
-                    //Creo el nuevo carrito con los datos requeridos:
-                    let newCart = {id, products};
                     //Pusheo el carrito al arreglo de carritos:
                     carts.push(newCart);
                     //Guardo el array de carritos en el archivo que sirve como Base de datos:
@@ -93,54 +103,64 @@ class CartManager {
     }
 
     //Método para verificar si existe el producto o no:
-    async verifyProductInCart(id, product) {
+    async verifyProductInCart(id, productId) {
         try {
             //Verifico que los datos ingresados sean correctos:
             if (typeof id !== 'number' || id <= 0) { return false; }
-            else if (typeof product.id !== 'number' || product.id <= 0) { return false; }
+            
+            else if (typeof productId !== 'number' || productId <= 0) { return false; }
             let cart = await this.getCartById(id);
-            if (cart === null) { throw new Error(`Error: No existe el carrito con el id: ${id} por lo que no se puede verificar si existe el producto!`); }
-            else {
-                let productInCart = cart.products.find(productDB => productDB.id === product.id);
-                return productInCart ? true : false;
+            console.log(cart);
+            if (!cart) { 
+                console.error(`Error: No existe el carrito con el id: ${id}`);
+                return false;
             }
-        } catch (error) { console.error("Error: No se pudo verificar si el producto existe en el carrito!"); }
+            else {
+                let productInCart = cart.products.find(productDB => productDB.id === productId);
+                if (productInCart) { return true; } 
+                else {  return false; }
+            }
+        } catch (error) { 
+            console.error("Error: No se pudo verificar si el producto existe en el carrito!"); 
+            return false;
+        }
     }
 
-    //Método para actualizar Carrito:
-    async updateCart(id, products) {
-        try {
-            //Verifico que los datos ingresado sean correctos:
-            if (typeof id !== 'number'|| id <= 0) { throw new Error("Error: El id del carrito solo acepta valores numéricos superiores a 0!"); }
-            let cart = await this.getCartById(id);
-            if (cart === null || cart === undefined) { throw new Error("Error: No se encontró el carrito con el id brindado para actualizar!"); }
-            else {
+        async updateCart(id, products) {
+            try {
+                // Verifico que los datos ingresados sean correctos:
+                if (typeof id !== 'number' || id <= 0) {  throw new Error("Error: El id del carrito solo acepta valores numéricos superiores a 0!");  }
+                // Obtener todos los carritos
+                let carts = await this.getCarts();  
+                // Buscar el carrito por su id
+                let cart = carts.find(cart => cart.id === id);  
+                if (!cart) {  throw new Error("Error: No se encontró el carrito con el id brindado para actualizar!"); }
                 let productsInCart = cart.products;
-                //Itero sobre los productos a agregar o actualizar en el carrito:
-                for (let product in products) {
-                    //Verifico si el producto ya existía en el carrito:
+                // Itero sobre los productos a agregar o actualizar en el carrito:
+                for (let product of products) {
+                    // Verifico si el producto ya existía en el carrito:
                     const productIndex = productsInCart.findIndex(pro => pro.id === product.id);
-                    //En caso de que no este el producto en el carrito:
+                    // En caso de que no esté el producto en el carrito:
                     if (productIndex === -1) { 
-                        products.push({ id: product.id, quantity: product.quantity}); 
-                        //Informo que se agrego el producto al carrito:
-                        console.log(`Feliciades! Se agrego el producto con el ${product.id} con la cantidad ${product.quantity} al carrito con el id: ${id}!!`);
+                        productsInCart.push({ id: product.id, quantity: 1 }); 
+                        // Informo que se agregó el producto al carrito:
+                        console.log(`¡Felicitaciones! Se agregó el producto con el id ${product.id} y cantidad ${product.quantity} al carrito con el id: ${id}!!`);
                     }
-                    //En caso de que el producto si este en el carrito, incremento en 1 la cantidad:
+                    // En caso de que el producto sí esté en el carrito, incremento la cantidad correctamente:
                     else { 
                         productsInCart[productIndex].quantity += 1; 
-                        //Informo que se actualizo la cantidad del producto en el carrito:
-                        console.log(`Feliciades! Como el producto con el id: ${product.id} ya existía en el carrito con id: ${id}, se le actualizó la cantidad en 1, por lo que ahora tiene ${product.quantity}`);
+                        // Informo que se actualizó la cantidad del producto en el carrito:
+                        console.log(`¡Felicitaciones! Como el producto con el id ${product.id} ya existía en el carrito con el id ${id}, se le actualizó la cantidad a ${productsInCart[productIndex].quantity}`);
                     }
-                }
-                //Guardo los cambios en la base de datos:
-                await fs.promises.writeFile(this.path, JSON.stringify(cart, null, "\t"));
-                //Informo que el carrito se actualizo en su totalidad:
-                console.log("Felicidades! El carrito se ha actualizado en su totalidad!");
-                return;
-            }
-        } catch (error) { console.error("Error: No se pudo actualizar el carrito indicado!"); }
-    }
+                }        
+                // Ahora guardo el arreglo de carritos completo con el carrito actualizado:
+                await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
+                // Informo que el carrito se actualizó correctamente:
+                console.log("¡Felicitaciones! El carrito se ha actualizado en su totalidad!");
+                // Retorno el carrito actualizado para que puedas ver el resultado
+                return cart;  
+            } catch (error) {  console.error("Error: No se pudo actualizar el carrito indicado!", error); }
+        }
 
 
     //Método para Eliminar un Carrito:
@@ -148,15 +168,16 @@ class CartManager {
         try{ 
             //Verifico que los datos ingresados sean correctos:
             if (typeof id !== 'number' || id <= 0) { throw new Error("Error: El id del carrito tiene que ser un valor numérico positivo, mayor que 0!!!"); }
-            else if (typeof product.id !== 'number' || product.id <= 0) { throw new  Error(`Error: El código de id: ${id} del carrito no es válido, solo se aceptan números superiores a 0!!!`); }
             else {
                 let carts = await this.getCarts();
                 if (carts.length === 0) { throw new Error("Error: No existen carritos por lo que no se puede eliminar lo indicado!"); }
                 else {
                     //Verifico que se recupere el id correctamente del carrito:
                     let cartIndex = carts.findIndex(ca => ca.id === id);
-                    if (cartIndex === -1) { throw new Error(`Error: No existe el carrito con el id: ${id}`); }
-                    else {
+                    if (cartIndex == -1) { 
+                        console.error(`Error: No existe el carrito con el id: ${id}`); 
+                        return;
+                    } else {
                         //Elimino el carrito del array:
                         carts.splice(cartIndex, 1);
                         //Guardo los cambios en la base de datos:
@@ -171,10 +192,12 @@ class CartManager {
     }
 
     //Método para Eliminar un producto del un carrito específico:
-    async deleteProductInCart(id, product){
+    async deleteProductInCart(id, productId){
         try {
             //Verifico que el producto este en el carrito:
-            if (await verifyProductInCart(id, product) === true) { 
+            let isProductInCart = await this.verifyProductInCart(id, productId);
+            if (isProductInCart === true) { 
+                
                 //Recupera la información del carrito:
                 let cart = await this.getCartById(id);
                 if (cart === null || cart === undefined) {throw new Error("Error: No se pudo recuperar el carrito seleccionado!"); }
@@ -182,14 +205,22 @@ class CartManager {
                     //Verifico que haya productos en el carrito:
                     if (cart.products && cart.products.length > 0) {
                         //Verifico que el producto a eliminar este en el carrito:
-                        const productIndex = cart.products.findIndex(pro => pro.id === product.id);
+                        let productIndex = -1;
+                        productIndex = cart.products.findIndex(pro => pro.id === productId);
                         if (productIndex === -1) { throw new Error("Error: El producto indicado no se encuentra en el carrito!"); }
                         else {
                             //Verifico si es el único producto en el carrito, si es asi, elimino directamente el carrito, si no elimino solo el producto:
-                            if (cart.products.length === 1) { await deleteCart(id); }
-                            else {
+                            if (cart.products.length === 1) { 
+                                await this.deleteCart(id); 
+                                return; 
+                            } else {
                                 //Elimino el producto del carrito:
                                 cart.products.splice(productIndex, 1);
+                                //Actualizo el Array de Carritos:
+                                let carts = await this.getCarts();
+                                let cartIndex = carts.findIndex(c => c.id === id);
+                                if (cartIndex !== -1) { carts[cartIndex] = cart; }
+                                else { throw new Error("Error: No se pudo encontrar el carrito en la base de datos para poder eliminar correctamente al producto!"); }
                                 //Guardo los cambios en la base de datos:
                                 await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
                                 //Informo que se elimino correctamente el producto del carrito:
@@ -200,7 +231,7 @@ class CartManager {
                     } else {throw new Error("Error: No hay productos en carrito para eliminar!"); }
                 }
             }
-        } catch(error) { console.error(`Error: No se pudo eliminar el producto con el id: ${product.id} del carrito con el id: ${id}!!!`); }
+        } catch(error) { console.error(`Error: No se pudo eliminar el producto con el id: ${productId} del carrito con el id: ${id}!!!`); }
     }
 
 }

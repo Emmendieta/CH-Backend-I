@@ -1,8 +1,11 @@
 const express = require("express");
 const { ProductManager } = require("./dao/ProductManager.js");
+const { CartManager } = require("./dao/CartManager.js");
 
 const PATH_PRODUCT_MANAGER = "./src/data/products.json"
 const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER);
+const PATH_CART_MANAGER = "./src/data/cart.json"    
+const CART_MANAGER = new CartManager(PATH_CART_MANAGER);
 
 const PORT = 8080;
 
@@ -13,6 +16,7 @@ APP.get("/", (req, res) => {
     res.send("Home Page");
 })
 
+// ********************** PRODUCTOS **********************
 APP.get("/api/products/", async(req, res) => {
     let {limit} = req.query;
     let products = await PRODUCT_MANAGER.getProducts();
@@ -25,9 +29,132 @@ APP.get("/api/products/", async(req, res) => {
         products = products.slice(0, limit);
     }
     res.send(products);
-})
+});
 
- const cargarProductos = async() => {
+// ********************** CARRITOS **********************
+
+APP.get("/api/carts/", async(req, res) => {
+    let {limit} = req.query;
+    let carts = await CART_MANAGER.getCarts();
+
+    if (limit) {
+        limit = Number(limit);
+        if (NaN(limit)) { 
+            return res.send("Error: El límite para mostrar los carritos tiene que ser un valor numérico!");
+        }
+        carts = carts.slice(0, limit);
+    }
+    res.send(carts);
+});
+
+const cargarCarritos = async() => {
+    const CARTS_MANAGER2 = new CartManager(PATH_CART_MANAGER);
+    try {
+
+/*         //Obtener todos los carritos:
+        console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.getCarts()); */
+                
+/*         //Crear un carrito con datos invalidos:
+        console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.createCart(["1", "5"]));
+        console.log(await CARTS_MANAGER2.createCart([1, "a"]));
+        console.log(await CARTS_MANAGER2.createCart(["a", 5])); 
+        console.log(JSON.stringify(await CARTS_MANAGER2.getCarts(), null, 1)); */
+
+        //Crear un carrito con un producto que no existe:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.createCart([{id: 7, quantity: 6}])); */
+
+/*         //Crear un carrito:
+        console.log("********************************************************");
+        const products = [
+                { id: 2, quantity: 5 },  // Producto con id 1 y cantidad 1
+                { id: 3, quantity: 5 }   // Producto con id 2 y cantidad 1
+        ];
+        console.log(await CARTS_MANAGER2.createCart(products));
+        //console.log(await CARTS_MANAGER2.createCart([{id: 1, quantity: 5}, {id: 2 , quantity: 5}]));
+        //console.log(await CARTS_MANAGER2.createCart([{id: 1, quantity: 5}, {id: 2 , quantity: 5}]));
+        console.log(JSON.stringify(await CARTS_MANAGER2.getCarts(), null, 1)); */
+        
+
+
+        //Obtener un carrito con un id invalido:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.getCartById("a")) */
+
+        //Obtener un carrito con un id que no existe:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.getCartById(5)); */
+
+        //Obtener un carrito por id:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.getCartById(1)); */
+
+        //Actualizar carrito con id invalido:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.updateCart("2", [{id: 1, quantity: 5}])); */
+
+        //Actualizar carrito con un id que no existe:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.updateCart(7, [{id: 1, quantity: 5}])); */
+
+        //Actualizar un carrito con el mismo producto y la misma cantidad (HAY QUE CODIFICAR ESTO)
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.updateCart(1, [{id: 1, quantity: 5}]));
+        //console.log(await CARTS_MANAGER2.getCarts())
+ */
+/*         //Actualizar un carrito con un producto que no esta dentro del carrito:
+        console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.updateCart(1, [{id: 3, quantity: 5}]));
+        console.log(JSON.stringify(await CARTS_MANAGER2.getCarts(), null, 1)); */
+
+        //Actualizar un carrito con un producto que existe pero se ingresa una cantidad diferente:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.updateCart(1, [{id: 2, quantity: 9}])); 
+        console.log(JSON.stringify(await CARTS_MANAGER2.getCarts(), null, 1)); */
+
+        //Eliminar producto de carrito con id del carrito invalido:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteProductInCart("1", 2)); */
+
+        //Eliminar producto con un id del producto invalido:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteProductInCart(1, "a")); */
+
+
+        //Eliminar producto de carrito con un id que no esta en el carrito:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteProductInCart(1, 2)); */
+
+
+        //Eliminar un producto del carrito con id que existe:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteProductInCart(1, 3));  */
+        //console.log(JSON.stringify(await CARTS_MANAGER2.getCarts(), null, 1));
+
+
+        //Eliminar un carrito con id invalido:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteCart("a")); */
+
+
+        //Eliminar carrito con id que no existe:
+/*         console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteCart(11)); */
+
+
+/*         //Eliminar carrito con id:
+        console.log("********************************************************");
+        console.log(await CARTS_MANAGER2.deleteCart(2));
+        console.log(JSON.stringify(await CARTS_MANAGER2.getCarts(), null, 1)); */
+
+    } catch(error) { console.error(error); }
+}
+
+cargarCarritos();
+
+const cargarProductos = async() => {
     const PRODUCT_MANAGER2 = new ProductManager("./src/data/products.json");
 
     try {
