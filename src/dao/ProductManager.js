@@ -85,7 +85,7 @@ class ProductManager {
     async getProduct(id) {
         try {
             let newProduct = null;
-            if (typeof id !== 'number' || id <= 0) { throw new Error(`Error: El id ${id} no es válido! Por favor verifique que el dato ingresado sea correcto!`); }
+            if (typeof id !== 'number' || id <= 0) { throw new Error(`Error: El id ${id} no es válido! Por favor verifique que el dato ingresado sea un valor numérico!`); }
             else {
                 let products = await this.getProducts();
                 if (products.length === 0) { throw new Error("Error: No hay productos almacenados por lo que no existe el producto que indico!"); }
@@ -138,7 +138,7 @@ class ProductManager {
                                 && product.status === status 
                                 && product.stock === stock 
                                 && product.category === category 
-                                && product.thumbnails === thumbnails) { throw new Error("Los datos ingresados son los mismos que se encuentran almacenados, por lo que no se va a modificar nada!!!") }
+                                && JSON.stringify(product.thumbnails) === JSON.stringify(thumbnails)) { throw new Error("Los datos ingresados son los mismos que se encuentran almacenados, por lo que no se va a modificar nada!!!") }
                                 else {
                                     //Actualizo los datos del producto:
                                     product.title = title;
@@ -149,8 +149,10 @@ class ProductManager {
                                     product.stock = stock;
                                     product.category = category;
                                     product.thumbnails = thumbnails;
+                                    //Actualizo el producto en la Base de Datos:
+                                    products[productIndex] = product;
                                     //Guardo la información actualizada del producto:
-                                    await fs.promises.writeFile(this.path, JSON.stringify(product, null, "\t"));
+                                    await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"));
                                     //informo que se actualizo correctamente el producto:
                                     console.log(`Felicidades el producto con el id: ${product.id} y el nombre: ${product.title} se ha actualizado correctamente!`);
                                     return;
@@ -166,7 +168,7 @@ class ProductManager {
     async deleteProduct(id) {
         try{
             //Verifico que el id sea un número mayor a 0:
-            if (typeof id !== 'number' || id <= 0) { throw new Error(`Error: El id: ${id} tiene que ser un número superior a 0!!!`); }
+            if (typeof id !== 'number' || id <= 0) { throw new Error(`Error: El id: ${id} para eliminar un producto solo acepta valores númericos positivos mayores a 0!!!`); }
             else {
                 let products = await this.getProducts();
                 //Verifico que haya al menos un producto almacenado:

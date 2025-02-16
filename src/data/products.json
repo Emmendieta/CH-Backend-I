@@ -1,8 +1,8 @@
 [
 	{
 		"id": 1,
-		"title": "titulo0",
-		"description": "descripcion0",
+		"title": "tituloNuevo",
+		"description": "descripcionNuevo",
 		"code": "codigo0",
 		"price": 1,
 		"status": true,
