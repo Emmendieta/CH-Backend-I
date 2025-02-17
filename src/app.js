@@ -34,7 +34,7 @@ APP.get("/api/products/", async (req, res) => {
         res.send(products);
 });
 
-//Obtener la información de un prodcuto con el id:
+//Obtener la información de un product con el id:
 APP.get("/api/products/:pid", async (req, res) => {
         //Obtengo el id por params:
         let {pid} = req.params;
@@ -74,17 +74,18 @@ APP.post("/api/products/", async(req, res) => {
 
 //Eliminar un producto:
 APP.delete("/api/products/:pid", async(req, res) => {
-        const {pid} = req.params;
+        let {pid} = req.params;
         //Parseo el id:
-        pid = parseInt(pid);
+        pid = Number(pid);
         //Verifico que  se ingrese correctamente el id:
         if (isNaN(pid)) { return res.send(`Error: el id del producto a eliminar tiene que ser un valor númerico!!!`); }
         else if(pid <= 0) { return res.send(`Error: El valor numérico del id tiene que ser un número entero positivo mayor a 0!!!`); }
         //En caso de que est todo ok, lo elimino:
         let product = await PRODUCT_MANAGER.deleteProduct(pid);
-        if (!product) { return res.send(`Error: no se ha podido eliminar correctamente el podructo con el id ${pid}!!!`); }
-        //En caso de que se elimino correctamente informo que todo se hizo correctamente
-        res.send("Felicidades! se ha eliminado correctamente el producto!");
+        //En caso de que se elimino correctamente informo que todo se hizo correctamente:
+        if(product) { res.send(`Felicidades! se ha eliminado correctamente el producto con el id: ${pid}!`); }
+        //En caso de que no se elimino:
+        else { res.send(`Error: No se pudo eliminar el producto indicado con el id: ${pid}`); }
 });
 
 // ********************** CARRITOS **********************
@@ -111,7 +112,8 @@ APP.get("/api/carts/:cid", async (req, res) => {
         //recupero el id indicado por navegador:
         let {cid} = req.params;
         //Lo parseo en entero:
-        cid = parseInt(cid);
+        cid = Number(cid);
+        if(isNaN(cid)) { return res.send("Error: Recuerde que solo se aceptan valores numéricos enteros positivos mayores a 0!!");}
         //Llamo al método para recuperar la información del carrito por el id:
         let cart = await CART_MANAGER.getCartById(cid);
         //En caso de que no exista 

@@ -166,6 +166,7 @@ class ProductManager {
 
     //Método para eliminar un producto:
     async deleteProduct(id) {
+        let verificacion = false;
         try{
             //Verifico que el id sea un número mayor a 0:
             if (typeof id !== 'number' || id <= 0) { throw new Error(`Error: El id: ${id} para eliminar un producto solo acepta valores númericos positivos mayores a 0!!!`); }
@@ -184,11 +185,13 @@ class ProductManager {
                         await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"));
                         //informo que se elimino correctamente el producto:
                         console.log(`Felicidades el producto con el id: ${id} se ha eliminado correctamente!`);
-                        return;
+                        verificacion = true;
+                        return verificacion;
                     }
                 }
             }
         } catch (error) { console.error("Error: No se pudo eliminar el producto indicado!", error); }
+        finally {return verificacion; }
     }
 }
 
