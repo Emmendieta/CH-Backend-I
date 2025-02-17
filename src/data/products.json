@@ -50,5 +50,18 @@
 		"thumbnails": [
 			"imagen3"
 		]
+	},
+	{
+		"id": 9,
+		"title": "titulo3",
+		"description": "descripcion3",
+		"code": "codigo3",
+		"price": 1.03,
+		"status": true,
+		"stock": 103,
+		"category": "categoria3",
+		"thumbnails": [
+			"imagen3"
+		]
 	}
 ]
