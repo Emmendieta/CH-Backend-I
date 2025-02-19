@@ -138,6 +138,9 @@ class CartManager {
                 let productsInCart = cart.products;
                 // Itero sobre los productos a agregar o actualizar en el carrito:
                 for (let product of products) {
+                    //Verifico que el producto exista:
+                    let productExist = await PRODUCT_MANAGER.getProduct(product.id);
+                    if (!productExist) { return console.log(`El producto con el id: ${product.id} No existe en la Base de Datos!`); }
                     // Verifico si el producto ya existía en el carrito:
                     const productIndex = productsInCart.findIndex(pro => pro.id === product.id);
                     // En caso de que no esté el producto en el carrito:
@@ -159,7 +162,10 @@ class CartManager {
                 console.log("¡Felicitaciones! El carrito se ha actualizado en su totalidad!");
                 // Retorno el carrito actualizado para que puedas ver el resultado
                 return cart;  
-            } catch (error) {  console.error("Error: No se pudo actualizar el carrito indicado!", error); }
+            } catch (error) {  
+                console.error("Error: No se pudo actualizar el carrito indicado!", error); 
+                throw error;
+            }
         }
 
 
