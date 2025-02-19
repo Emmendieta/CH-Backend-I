@@ -1,15 +1,15 @@
 [
 	{
 		"id": 1,
-		"title": "tituloNuevo",
-		"description": "descripcionNuevo",
-		"code": "codigo0",
-		"price": 1,
+		"title": "actualizacion por postman",
+		"description": "prueba de actualizacion con postman",
+		"code": "postman04",
+		"price": 1000.99,
 		"status": true,
-		"stock": 100,
-		"category": "categoria0",
+		"stock": 2001,
+		"category": "prueba de actualizacion con postman",
 		"thumbnails": [
-			"imagen0"
+			"modificacion de postman "
 		]
 	},
 	{
@@ -62,6 +62,32 @@
 		"category": "categoria3",
 		"thumbnails": [
 			"imagen3"
+		]
+	},
+	{
+		"id": 8,
+		"title": "a",
+		"description": "a",
+		"code": "a",
+		"price": 1,
+		"status": true,
+		"stock": 1,
+		"category": "a",
+		"thumbnails": [
+			"ALGO"
+		]
+	},
+	{
+		"id": 9,
+		"title": "postman",
+		"description": "prueba de alta con postman",
+		"code": "postman01",
+		"price": 1.99,
+		"status": true,
+		"stock": 1,
+		"category": "a",
+		"thumbnails": [
+			"ALGO"
 		]
 	}
 ]

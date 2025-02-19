@@ -114,20 +114,33 @@ class ProductManager {
     //Método para actualizar un Producto existente:
     async updateProduct(id, title, description, code, price, status, stock, category, thumbnails) {
         try {
+            let verify = false;
             //Verico que el id ingresado sea un numero superior a 0:
-            if (typeof id !== 'number' || id < 0) { throw new Error(`El id ingresado: ${id} no es válido (tiene que ser superior a 0 y tiene que ser un número!)`); } 
+            if (typeof id !== 'number' || id < 0) { 
+                console.error(`El id ingresado: ${id} no es válido (tiene que ser superior a 0 y tiene que ser un número!)`); 
+                return verify;
+            } 
             else { 
                 //Verifico que los datos ingresados sean en el formato Correcto:
                 const valid = this.validateProduct(title, description, code, price, status, stock, category, thumbnails);
-                if (!valid) { throw new Error("Error: Por favor verifique los datos ingresados para poder actualizar al Producto seleccionado!"); }
+                if (!valid) { 
+                    console.error("Error: Por favor verifique los datos ingresados para poder actualizar al Producto seleccionado!"); 
+                    return verify;
+                }
                 else {
                     let products = await this.getProducts();
                     //Verifico que haya al menos un producto almacenado:
-                    if (products.length === 0) { throw new Error("Error: No existen productos almacenados!!! Primero cree al menos uno y luego intente modificarlo!"); }
+                    if (products.length === 0) { 
+                        console.error("Error: No existen productos almacenados!!! Primero cree al menos uno y luego intente modificarlo!"); 
+                        return verify;
+                    }
                     else {
                         //Verifico que se recupere el id correctamente del producto:
                         let productIndex = products.findIndex(pro => pro.id === id);
-                        if(productIndex === -1) { throw new Error(`Error: No se encontró el producto indicado con el id: ${id}!!!`); }
+                        if(productIndex === -1) { 
+                            console.error(`Error: No se encontró el producto indicado con el id: ${id}!!!`);
+                            return verify; 
+                        }
                         else {
                             let product = products[productIndex];
                             //Verifico que los datos ingresados no sean iguales a los que ya estan almacenados:
@@ -138,7 +151,10 @@ class ProductManager {
                                 && product.status === status 
                                 && product.stock === stock 
                                 && product.category === category 
-                                && JSON.stringify(product.thumbnails) === JSON.stringify(thumbnails)) { throw new Error("Los datos ingresados son los mismos que se encuentran almacenados, por lo que no se va a modificar nada!!!") }
+                                && JSON.stringify(product.thumbnails) === JSON.stringify(thumbnails)) { 
+                                    console.error("Los datos ingresados son los mismos que se encuentran almacenados, por lo que no se va a modificar nada!!!") 
+                                    return verify;
+                                }
                                 else {
                                     //Actualizo los datos del producto:
                                     product.title = title;
@@ -155,7 +171,8 @@ class ProductManager {
                                     await fs.promises.writeFile(this.path, JSON.stringify(products, null, "\t"));
                                     //informo que se actualizo correctamente el producto:
                                     console.log(`Felicidades el producto con el id: ${product.id} y el nombre: ${product.title} se ha actualizado correctamente!`);
-                                    return;
+                                    verify = true;
+                                    return verify;
                                 }
                         }
                     }
