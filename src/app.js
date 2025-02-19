@@ -1,24 +1,32 @@
 const express = require("express");
-const { ProductManager } = require("./dao/ProductManager.js");
-const { CartManager } = require("./dao/CartManager.js");
+const PRODUCT_ROUTER = require("./routes/Product.Router.js");
+const CART_ROUTER = require("./routes/Cart.Router.js");
 
-const PATH_PRODUCT_MANAGER = "./src/data/products.json"
-const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER);
-const PATH_CART_MANAGER = "./src/data/cart.json"
-const CART_MANAGER = new CartManager(PATH_CART_MANAGER);
+/* const { ProductManager } = require("./dao/ProductManager.js"); */
+/* const { CartManager } = require("./dao/CartManager.js"); */
+/* const PATH_PRODUCT_MANAGER = "./src/data/products.json"
+const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER); */
+/* const PATH_CART_MANAGER = "./src/data/cart.json"
+const CART_MANAGER = new CartManager(PATH_CART_MANAGER); */
 
 const PORT = 8080;
-
 const APP = express();
+
+APP.use(express.json());
+APP.use(express.urlencoded({ extended: true }));
+
+APP.use("/api/products", PRODUCT_ROUTER);
+APP.use("/api/carts", CART_ROUTER);
 
 //Declaro la página de inicio:
 APP.get("/", (req, res) => {
+        res.setHeader('Content-Type','text/plain');
         res.send("Home Page");
 });
 
 // ********************** PRODUCTOS **********************
 
-//Obtener todos los productos:
+/* //Obtener todos los productos:
 APP.get("/api/products/", async (req, res) => {
         //Establezco un límite de búsqueda en caso de que tenga muchos productos:
         let { limit } = req.query;
@@ -86,11 +94,11 @@ APP.delete("/api/products/:pid", async(req, res) => {
         if(product) { res.send(`Felicidades! se ha eliminado correctamente el producto con el id: ${pid}!`); }
         //En caso de que no se elimino:
         else { res.send(`Error: No se pudo eliminar el producto indicado con el id: ${pid}`); }
-});
+}); */
 
 // ********************** CARRITOS **********************
 
-//Método para traer todos los carritos:
+/* //Método para traer todos los carritos:
 APP.get("/api/carts/", async (req, res) => {
         //Puedo establecer un limite en caso de que tenga muchos carritos:
         let { limit } = req.query;
@@ -105,9 +113,9 @@ APP.get("/api/carts/", async (req, res) => {
         }
         //Devuelvo todos los carritos:
         res.send(carts);
-});
+}); */
 
-//Método para traer un carrito por el id:
+/* //Método para traer un carrito por el id:
 APP.get("/api/carts/:cid", async (req, res) => {
         //recupero el id indicado por navegador:
         let {cid} = req.params;
@@ -120,7 +128,7 @@ APP.get("/api/carts/:cid", async (req, res) => {
         if(!cart) { return res.send(`Error: No se encontró el carrito con el id: ${cid}!!!`);}
         //Devuelvo el carrito:
         res.send(cart);
-});
+}); */
 
 
 //Inicializo el puerto del servidor e informo que se conecto correctamente:
