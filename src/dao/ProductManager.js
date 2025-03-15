@@ -71,11 +71,31 @@ class ProductManager {
             let products = await this.getProducts();
             if (products.length === 0) { return false; }
             else {
-                let product = products.find(pro => String(pro.id).trim() === String(code).trim());
+                let product = products.find(pro => String(pro.code).trim() === String(code).trim());
+                return product !== undefined;
+/*                 let product = products.find(pro => String(pro.id).trim() === String(code).trim());
+                if (product) { return true; } */
+                //else { return false; }
+            }
+        } catch (error) { 
+            console.error("Error: No se pudo verificar si existe o no el producto!"); 
+            return false;
+        }
+    }
+
+    async verifyProductById(pId) {
+        try {
+            let products = await this.getProducts();
+            if (products.length === 0) { return false; }
+            else {
+                let product = products.find(pro => String(pro.id).trim() === String(pId).trim());
                 if (product) { return true; }
                 else { return false; }
             }
-        } catch (error) { console.error("Error: No se pudo verificar si existe o no el producto!"); }
+        } catch (error) { 
+            console.error("Error: No se pudo verificar si existe o no el producto!"); 
+            return false;
+        }
     }
 
     //Método para devolver un Producto por id:

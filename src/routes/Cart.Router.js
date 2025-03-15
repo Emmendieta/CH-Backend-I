@@ -90,7 +90,7 @@ ROUTER.post("/:cid/product/:pid", async (req, res) =>  {
         if (!cart) { return res.status(404).json({error: `Error: No existe el carrito con el id: ${cid}`}); }
         let products = [];
         //Verifico si el producto existe:
-        let verifyProduct = await PRODUCT_MANAGER.verifyProduct(parseInt(pid));
+        let verifyProduct = await PRODUCT_MANAGER.verifyProductById(parseInt(pid));
         //Creo el nuevo producto con lo indicado en la consigna:
         let product = {id: parseInt(pid), quantity: 1};
         if (!verifyProduct) { return res.status(400).json({error: "Error: No existe el producto indicado en la base de datos!"}); }
