@@ -1,0 +1,145 @@
+[
+	{
+		"id": 1,
+		"title": "actualizacion por postman",
+		"description": "prueba de actualizacion con postman",
+		"code": "postman04",
+		"price": 1000.99,
+		"status": true,
+		"stock": 1000,
+		"category": "prueba de actualizacion con postman",
+		"thumbnails": [
+			"algo"
+		]
+	},
+	{
+		"id": 2,
+		"title": "titulo1",
+		"description": "descripcion1",
+		"code": "codigo1",
+		"price": 1.01,
+		"status": true,
+		"stock": 101,
+		"category": "categoria1",
+		"thumbnails": [
+			"imagen1"
+		]
+	},
+	{
+		"id": 3,
+		"title": "titulo2",
+		"description": "descripcion2",
+		"code": "codigo2",
+		"price": 1.02,
+		"status": true,
+		"stock": 102,
+		"category": "categoria2",
+		"thumbnails": [
+			"imagen2"
+		]
+	},
+	{
+		"id": 4,
+		"title": "titulo3",
+		"description": "descripcion3",
+		"code": "codigo3",
+		"price": 1.03,
+		"status": true,
+		"stock": 103,
+		"category": "categoria3",
+		"thumbnails": [
+			"imagen3"
+		]
+	},
+	{
+		"id": 7,
+		"title": "titulo3",
+		"description": "descripcion3",
+		"code": "codigo3",
+		"price": 1.03,
+		"status": true,
+		"stock": 103,
+		"category": "categoria3",
+		"thumbnails": [
+			"imagen3"
+		]
+	},
+	{
+		"id": 8,
+		"title": "a",
+		"description": "a",
+		"code": "a",
+		"price": 1,
+		"status": true,
+		"stock": 1,
+		"category": "a",
+		"thumbnails": [
+			"ALGO"
+		]
+	},
+	{
+		"id": 9,
+		"title": "postman",
+		"description": "prueba de alta con postman",
+		"code": "postman01",
+		"price": 1.99,
+		"status": true,
+		"stock": 1,
+		"category": "a",
+		"thumbnails": [
+			"ALGO"
+		]
+	},
+	{
+		"id": 10,
+		"title": "postman prueba despues de correccion",
+		"description": "prueba de alta con postman",
+		"code": "postman05",
+		"price": 1.99,
+		"status": true,
+		"stock": 20,
+		"category": "true",
+		"thumbnails": [
+			"postman"
+		]
+	},
+	{
+		"id": 11,
+		"title": "postman prueba despues de correccion sin stock",
+		"description": "prueba de alta con postman 1",
+		"code": "postman07",
+		"price": 1.99,
+		"status": true,
+		"stock": 1,
+		"category": "true",
+		"thumbnails": [
+			"postman"
+		]
+	},
+	{
+		"id": 12,
+		"title": "postman prueba despues de correccion sin stock",
+		"description": "prueba de alta con postman 1",
+		"code": "postman08",
+		"price": 1.99,
+		"status": true,
+		"stock": 1,
+		"category": "true",
+		"thumbnails": [
+			""
+		]
+	},
+	{
+		"id": 13,
+		"title": "postman prueba despues de correccion sin stock",
+		"description": "prueba de alta con postman 1",
+		"code": "postman09",
+		"price": 1.99,
+		"status": true,
+		"stock": 0,
+		"category": "true",
+		"thumbnails": [
+			""
+		]
+	}
+]
