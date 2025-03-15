@@ -26,10 +26,7 @@ class ProductManager {
                 }
                 const valid = this.validateProduct(title, description, code, price, status, stock, category, thumbnails);
                 // Validar los datos del producto:
-                if (!valid) {
-
-                    throw new Error("Error: Los datos del producto no son válidos! Por favor, verifiquelos!");
-                }
+                if (!valid) {throw new Error("Error: Los datos del producto no son válidos! Por favor, verifiquelos!");}
                 else {
                     //Verifico si ya existe un producto con el mismo code ingresado:
                     const exist = await this.verifyProduct(code);
