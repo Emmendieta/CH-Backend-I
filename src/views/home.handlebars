@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/Home.css">
+</head>
+
+<body>
+    <div id="homeDivTitle">
+        <section id="homeDivSectTop">
+            <h1 id="homeh1Title">Lista de Productos</h1>
+        </section>
+        <section id="homeDivSectBottom">
+            <ul id="homeUlProducts">
+                {{#each products}}
+                <li class="homeUlLi">
+                    <h2 class="homeUlLih2">Id: {{this.id}}</h2>
+                    <h3 class="homeUlLih3">Title: {{this.title}}</h3>
+                    <h4 class="homeUlLih4">Description: {{this.description}}</h4>
+                    <h4 class="homeUlLih4">Price: ${{this.price}}</h4>
+                    <h4 class="homeUlLih4">Status: {{this.status}}</h4>
+                    <h4 class="homeUlLih4">Stock: {{this.stock}}</h4>
+                    <h4 class="homeUlLih4">Category: {{this.category}}</h4>
+                    <h4 class="homeUlLih4">Thumbnails: {{this.thumbnails}}</h4>
+                </li>
+                {{/each}}
+            </ul>
+        </section>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+* {
+    text-decoration: none;
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+    background-color: grey;
+}/* Reset de CSS */
+
+#homeh1Title {
+    display: flex;
+    justify-content: space-around;
+    margin: 15px;
+    font-size: 45px;
+    color: red;
+} 
+
+#homeUlProducts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+}
+
+.homeUlLi {
+    flex:  1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+    margin: 10px;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.homeUlLih2, .homeUlLih3, .homeUlLih4  {
+    color: yellow;
+    margin: 5px;
+}
+
+
+
+/* .homeUlProducts {
+
+} */
