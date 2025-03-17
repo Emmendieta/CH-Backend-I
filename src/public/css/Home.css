@@ -4,14 +4,14 @@
     margin: 0;
     padding: 0;
     background-color: grey;
-}/* Reset de CSS */
+}
 
 #homeh1Title {
     display: flex;
     justify-content: space-around;
     margin: 15px;
     font-size: 45px;
-    color: red;
+    color: lightcoral;
 } 
 
 #homeUlProducts {
@@ -28,15 +28,11 @@
     border: 2px solid black;
     border-radius: 15px;
     padding: 15px;
+    background-color: lightblue;
 }
 
 .homeUlLih2, .homeUlLih3, .homeUlLih4  {
-    color: yellow;
+    color: blueviolet;
     margin: 5px;
+    background-color: lightblue;
 }
-
-
-
-/* .homeUlProducts {
-
-} */

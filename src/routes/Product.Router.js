@@ -81,6 +81,17 @@ ROUTER.post("/", async (req, res) => {
         if (verify) { return res.status(500).json({ error: `Error: No se procedio a dar el alta al producto con el code: "${code}" porque ya existe otro con el mismo code!!!` }); }
         //Trato de generar el nuevo producto y almacenarlo:
         const product = await PRODUCT_MANAGER.addProduct(title, description, code, price, status, stock, category, thumbnails);
+        //Emito con socket el emit para indicar que se creo el nuevo producto:
+        req.IO.emit('newProduct', {
+            title: productTitle,
+            description: productDescription,
+            code: productCode,
+            price: productPrice,
+            stock: productStock,
+            category: productCategory,
+            thumbnails: productThumbnails,
+            status: productStatus
+        });
         res.status(201).json({ producto: product });
     } catch (error) {
         res.setHeader('Content-Type', 'application/json');
@@ -170,6 +181,8 @@ ROUTER.delete("/:pid", async (req, res) => {
         //En caso de que est todo ok, lo elimino:
         pid = parseInt(pid);
         let product = await PRODUCT_MANAGER.deleteProduct(pid);
+        //Emit con Socket:
+        req.IO.emit('deleteProduct', pid);
         //En caso de que se elimino correctamente informo que todo se hizo correctamente:
         if (product) { res.status(200).json({ mensaje: `Felicidades! se ha eliminado correctamente el producto con el id: ${pid}!` }); }
         //En caso de que no se elimino:

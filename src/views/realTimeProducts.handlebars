@@ -1,108 +1,22 @@
-{{!-- VER TODO ESTE CODIGO!!!!!! --}}
+<h1>Lista de Productos en Tiempo Real</h1>
+<!-- Formulario para agregar productos -->
+<form id="addProductForm">
+    <input type="text" id="productTitle" placeholder="Nombre del producto" required>
+    <textarea id="productDescription" placeholder="Descripción del producto" required></textarea>
+    <input type="text" id="productCode" placeholder="Código" required>
+    <input type="number" id="productPrice" placeholder="Precio" step="any" required>
+    <input type="number" id="productStock" placeholder="Stock" required>
+    <input type="text" id="productCategory" placeholder="Categoría" required>
+    <input type="text" id="productThumbnails" placeholder="Thumbnails (URLs separados por comas)">
+    <select id="productStatus">
+        <option value="true">Disponible</option>
+        <option value="false">Agotado</option>
+    </select>
+    <button type="submit">Agregar Producto</button>
+</form>
 
-<!DOCTYPE html>
-<html lang="es">
+<!-- Lista de productos -->
+<ul id="productsList"><!-- Lista de Productos creado por JS --></ul>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Real Time Products</title>
-</head>
-
-<body>
-    <h1>Lista de Productos en Tiempo Real</h1>
-
-    <!-- Formulario para agregar productos -->
-    <form id="addProductForm">
-        <input type="text" id="productTitle" placeholder="Nombre del producto" required>
-        <textarea id="productDescription" placeholder="Descripción del producto" required></textarea>
-        <input type="text" id="productCode" placeholder="Código" required>
-        <input type="number" id="productPrice" placeholder="Precio" step="any" required>
-        <input type="number" id="productStock" placeholder="Stock" required>
-        <input type="text" id="productCategory" placeholder="Categoría" required>
-        <input type="text" id="productThumbnails" placeholder="Thumbnails (URLs separados por comas)">
-        <select id="productStatus">
-            <option value="true">Disponible</option>
-            <option value="false">Agotado</option>
-        </select>
-        <button type="submit">Agregar Producto</button>
-    </form>
-
-    <!-- Lista de productos -->
-    <ul id="productsList">
-        <!-- Aquí se van a insertar los productos mediante JavaScript -->
-    </ul>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-        const socket = io();
-
-        // Actualizar la lista de productos en el cliente
-        function updateProducts(products) {
-            const productsList = document.getElementById('productsList');
-            productsList.innerHTML = '';  // Limpiar la lista
-
-            products.forEach(product => {
-                const li = document.createElement('li');
-                //VIEJO:
-                //li.textContent = `${product.title} - $${product.price}`;
-                //productsList.appendChild(li);
-                li.innerHTML = `
-                <h2>${product.title}</h2>
-                <h3>${product.code}</h3>
-                <h4>${product.description}</h4>
-                <h4>${product.price}</h4>
-                <h4>${product.stock}</h4>
-                <h4>${product.status}</h4>
-                <h4>${product.thumbnails}</h4>
-                <h5>${product.id}</h5>
-                <button id = "btnDeleteProduct${product.id}" onclick="deleteProduct('${product.id}')">Eliminar Producto</button>
-                `;
-                productsList.appendChild(li);
-            });
-        }
-
-        // Escuchar el evento 'updateProducts' para actualizar la lista
-        socket.on('updateProducts', (products) => {
-            updateProducts(products);
-        });
-
-        // Enviar un nuevo producto cuando se agrega a través del formulario
-        const form = document.getElementById('addProductForm');
-        form.addEventListener('submit', (event) => {
-            event.preventDefault();
-
-            const productTitle = document.getElementById('productTitle').value;
-            const productDescription = document.getElementById('productDescription').value;
-            const productCode = document.getElementById('productCode').value;
-            const productPrice = document.getElementById('productPrice').value;
-            const productStock = document.getElementById('productStock').value;
-            const productCategory = document.getElementById('productCategory').value;
-            const productThumbnails = document.getElementById('productThumbnails').value.split(',');  // Convierte las URLs en un array
-            const productStatus = document.getElementById('productStatus').value;
-
-            // Emitir el evento para agregar el producto con todos los campos
-            socket.emit('newProduct', {
-                title: productTitle,
-                description: productDescription,
-                code: productCode,
-                price: productPrice,
-                stock: productStock,
-                category: productCategory,
-                thumbnails: productThumbnails,
-                status: productStatus
-            });
-
-            // Limpiar el formulario
-            form.reset();
-        });
-
-        //Eliminar un producto:
-        function deleteProduct(productId) {
-            console.log(productId)
-            socket.emit('deleteProduct', productId );
-        }
-    </script>
-</body>
-
-</html>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/RealTimeProducts.js"></script>

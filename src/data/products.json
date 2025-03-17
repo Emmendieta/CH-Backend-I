@@ -157,15 +157,15 @@
 	},
 	{
 		"id": 15,
-		"title": "prueba Real Time",
-		"description": "prueba2",
-		"code": "realTime0002",
-		"price": 15.11,
+		"title": "realTime01",
+		"description": "realTime01",
+		"code": "realTime01",
+		"price": 1,
 		"status": true,
-		"stock": 0,
-		"category": "real01",
+		"stock": 1,
+		"category": "realTime01",
 		"thumbnails": [
-			"realTime"
+			""
 		]
 	}
 ]
