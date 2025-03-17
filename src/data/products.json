@@ -141,5 +141,31 @@
 		"thumbnails": [
 			""
 		]
+	},
+	{
+		"id": 14,
+		"title": "prueba Real Time",
+		"description": "prueba",
+		"code": "realTime0001",
+		"price": 1,
+		"status": true,
+		"stock": 1,
+		"category": "real01",
+		"thumbnails": [
+			"realTime"
+		]
+	},
+	{
+		"id": 15,
+		"title": "prueba Real Time",
+		"description": "prueba2",
+		"code": "realTime0002",
+		"price": 15.11,
+		"status": true,
+		"stock": 0,
+		"category": "real01",
+		"thumbnails": [
+			"realTime"
+		]
 	}
 ]
