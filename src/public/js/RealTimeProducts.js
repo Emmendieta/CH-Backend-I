@@ -17,15 +17,15 @@ function updateProducts(products) {
 
     products.forEach(product => {
         const li = document.createElement('li');
+        li.id = `productRealTime${product.id}`;
         li.innerHTML = `
-        <h2>${product.title}</h2>
-        <h3>${product.code}</h3>
-        <h4>${product.description}</h4>
-        <h4>${product.price}</h4>
-        <h4>${product.stock}</h4>
-        <h4>${product.status}</h4>
-        <h4>${product.thumbnails}</h4>
-        <h5>${product.id}</h5>
+        <h2 class= "productRealTimeH2">${product.title}</h2>
+        <h3 class= "productRealTimeH3">Code: ${product.code}</h3>
+        <h4 class= "productRealTimeH4">Description: ${product.description}</h4>
+        <h4 class= "productRealTimeH4">$${product.price}</h4>
+        <h4 class= "productRealTimeH4">Stock: ${product.stock}</h4>
+        <h4 class= "productRealTimeH4">Status: ${product.status}</h4>
+        <h4 class= "productRealTimeH4">${product.thumbnails}</h4>
         <button id = "btnDeleteProduct${product.id}" onclick="deleteProduct('${product.id}')">Eliminar Producto</button>
         `;
         productsList.appendChild(li);

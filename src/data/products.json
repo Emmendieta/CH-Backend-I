@@ -154,18 +154,5 @@
 		"thumbnails": [
 			"realTime"
 		]
-	},
-	{
-		"id": 15,
-		"title": "realTime01",
-		"description": "realTime01",
-		"code": "realTime01",
-		"price": 1,
-		"status": true,
-		"stock": 1,
-		"category": "realTime01",
-		"thumbnails": [
-			""
-		]
 	}
 ]

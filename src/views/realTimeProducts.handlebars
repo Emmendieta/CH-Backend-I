@@ -1,4 +1,10 @@
-<h1>Lista de Productos en Tiempo Real</h1>
+<head>
+    <link rel="stylesheet" href="/css/RealTimeProducts.css">
+</head>
+
+<div id="divRealTimeTop">
+    <h1 id="titleListH1RealTime">Lista de Productos en Tiempo Real</h1>
+</div>
 <!-- Formulario para agregar productos -->
 <form id="addProductForm">
     <input type="text" id="productTitle" placeholder="Nombre del producto" required>
@@ -8,11 +14,15 @@
     <input type="number" id="productStock" placeholder="Stock" required>
     <input type="text" id="productCategory" placeholder="Categoría" required>
     <input type="text" id="productThumbnails" placeholder="Thumbnails (URLs separados por comas)">
-    <select id="productStatus">
+    <div class="formDivRealTime">
+        <select id="productStatus">
         <option value="true">Disponible</option>
         <option value="false">Agotado</option>
     </select>
-    <button type="submit">Agregar Producto</button>
+    </div>
+    <div class="formDivRealTime">
+        <button id="btnFormAddProduct" type="submit">Agregar Producto</button>
+    </div>
 </form>
 
 <!-- Lista de productos -->

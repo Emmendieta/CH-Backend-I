@@ -73,9 +73,6 @@ class ProductManager {
             else {
                 let product = products.find(pro => String(pro.code).trim() === String(code).trim());
                 return product !== undefined;
-/*                 let product = products.find(pro => String(pro.id).trim() === String(code).trim());
-                if (product) { return true; } */
-                //else { return false; }
             }
         } catch (error) { 
             console.error("Error: No se pudo verificar si existe o no el producto!"); 

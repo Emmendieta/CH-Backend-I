@@ -1,0 +1,82 @@
+* {
+    text-decoration: none;
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+    background-color: white;
+}
+
+#divRealTimeTop {
+    display: flex;
+    justify-content: space-around;
+}
+
+#titleListH1RealTime {
+    padding: 5px;
+    margin: 10px;
+}
+
+#addProductForm {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    margin: 20px 30%;
+    padding: 25px;
+    border: 1px solid rgb(97, 96, 96);
+    border-radius: 5px;
+}
+
+#productTitle, #productDescription, #productCode, #productPrice, #productStock, #productCategory, #productThumbnails {
+    margin: 15px 0;
+}
+
+.formDivRealTime{
+    display: flex;
+    justify-content: space-around;
+}
+
+#productStatus {
+    width: auto;
+    padding: 5px;
+}
+
+#btnFormAddProduct {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    white-space: nowrap;
+    margin: 15px;
+    border-radius: 5px;
+    background-color: lightskyblue;
+}
+
+#productsList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 10px;
+}
+
+#productsList li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex:  1 1 calc(33.333% - 20px);
+    box-sizing: border-box;
+    margin: 10px;
+    border: 1.5px solid black;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.productRealTimeH2, .productRealTimeH3, .productRealTimeH4 {
+    padding: 5px;
+    margin: 5px;
+}
+
+#productsList button {
+    padding: 7px;
+    border-radius: 5px;
+    background-color: rgb(226, 75, 75);
+    color: antiquewhite;
+}

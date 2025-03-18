@@ -211,7 +211,6 @@ class CartManager {
             }
         } catch (error) { console.error(`Error: No se pudo eliminar el producto con el id: ${productId} del carrito con el id: ${id}!!!`); }
     }
-
 }
 
 module.exports = { CartManager };
