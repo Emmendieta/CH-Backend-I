@@ -10,12 +10,18 @@ import PRODUCT_ROUTER from "./routes/Product.Router.js";
 import CART_ROUTER from "./routes/Cart.Router.js";
 //const VIEW_ROUTER = require("./routes/Views.Router.js");
 import { VIEW_ROUTER } from "./routes/Views.Router.js";
-
 //const { ProductManager } = require("../src/dao/ProductManager.js");
 import { ProductManager } from '../src/dao/ProductManager.js';
 //const { conectarDB } = require("./connectionDB.js");
 import { conectarDB } from "./connectionDB.js";
 import { CONFIG } from "./config/config.js";
+
+//Importo el Product Router de MongoDB:
+import { ROUTER as PRODUCT_MONGO_ROUTER } from './routes/ProductMongo.Router.js';
+//Importo el Router de Vistar Router de MongoDB:
+import { ROUTER as VIEWS_MONGO_ROUTER } from './routes/Views.Router.Mongo.js';
+
+
 const PATH_PRODUCT_MANAGER = "./src/data/products.json";
 const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER);
 
@@ -37,25 +43,28 @@ APP.set('view engine', 'handlebars');
 APP.set('views', './src/views');
 
 // ********************** PRODUCTOS **********************
-APP.use("/api/products",
+
+APP.use("/api/products", PRODUCT_MONGO_ROUTER);
+//Codigo sin MongoDB:
+/* APP.use("/api/products",
         (req, res, next) => {
                 req.IO = IO;
                 next();
         },
         PRODUCT_ROUTER);
-
+ */
 // ********************** CARRITOS **********************
 APP.use("/api/carts", CART_ROUTER);
 
 // ********************** HANDLEBARS **********************
 
-APP.use("/", VIEW_ROUTER);
+APP.use("/", VIEWS_MONGO_ROUTER);
+/* APP.use("/", VIEW_ROUTER); */
 
 //Declaro la página de inicio:
 APP.get("/", (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.status(200).send('OK');
-
 });
 
 const SERVER_HTTP = APP.listen(PORT, () => {//Mi servidor HTTP:
