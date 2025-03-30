@@ -1,5 +1,7 @@
-const { ProductManager } = require('../dao/ProductManager.js');
-const Router = require('express').Router;
+//const { ProductManager } = require('../dao/ProductManager.js');
+import ProductManager from '../dao/ProductManager.js';
+//const Router = require('express').Router;
+import { Router } from 'express';
 const router = Router();
 
 const PATH_PRODUCT_MANAGER = "./src/data/products.json"
@@ -16,4 +18,5 @@ router.get('/realtimeproducts', async (req, res) => {
         res.render("realTimeProducts", { products }); 
 });
 
-module.exports = router
+//module.exports = router
+export const VIEW_ROUTER = router;

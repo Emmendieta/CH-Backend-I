@@ -1,6 +1,9 @@
-const { Router } = require("express");
-const { CartManager } = require("../dao/CartManager.js");
-const { ProductManager } = require("../dao/ProductManager.js");
+//const { Router } = require("express");
+import { Router } from "express";
+//const { CartManager } = require("../dao/CartManager.js");
+import CartManager from "../dao/CartManager.js";
+//const { ProductManager } = require("../dao/ProductManager.js");
+import ProductManager from "../dao/ProductManager.js";
 
 const ROUTER = Router();
 
@@ -104,4 +107,6 @@ ROUTER.post("/:cid/product/:pid", async (req, res) =>  {
     }
 });
 
-module.exports = ROUTER;
+//module.exports = ROUTER;
+//export const CART_ROUTER = Router
+export default ROUTER;

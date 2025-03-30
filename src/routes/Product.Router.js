@@ -1,5 +1,7 @@
-const { Router } = require("express");
-const { ProductManager } = require("../dao/ProductManager.js");
+//const { Router } = require("express");
+import { Router } from "express";
+//const { ProductManager } = require("../dao/ProductManager.js");
+import ProductManager from "../dao/ProductManager.js";
 
 const ROUTER = Router();
 
@@ -193,4 +195,5 @@ ROUTER.delete("/:pid", async (req, res) => {
     }
 });
 
-module.exports = ROUTER;
+//module.exports = ROUTER;
+export default ROUTER;

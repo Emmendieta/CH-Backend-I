@@ -1,16 +1,26 @@
-const express = require("express");
-const { engine } = require("express-handlebars");
-const { Server } = require('socket.io');
-const PRODUCT_ROUTER = require("./routes/Product.Router.js");
-const CART_ROUTER = require("./routes/Cart.Router.js");
-const VIEW_ROUTER = require("./routes/Views.Router.js");
+//const express = require("express");
+import express from "express";
+//const { engine } = require("express-handlebars");
+import { engine } from "express-handlebars";
+//const { Server } = require('socket.io');
+import { Server } from "socket.io";
+//const PRODUCT_ROUTER = require("./routes/Product.Router.js");
+import PRODUCT_ROUTER from "./routes/Product.Router.js";
+//const CART_ROUTER = require("./routes/Cart.Router.js");
+import CART_ROUTER from "./routes/Cart.Router.js";
+//const VIEW_ROUTER = require("./routes/Views.Router.js");
+import { VIEW_ROUTER } from "./routes/Views.Router.js";
 
-const { ProductManager } = require("../src/dao/ProductManager.js");
+//const { ProductManager } = require("../src/dao/ProductManager.js");
+import { ProductManager } from '../src/dao/ProductManager.js';
+//const { conectarDB } = require("./connectionDB.js");
+import { conectarDB } from "./connectionDB.js";
+import { CONFIG } from "./config/config.js";
 const PATH_PRODUCT_MANAGER = "./src/data/products.json";
 const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER);
 
 
-const PORT = 8080;
+const PORT = CONFIG.PORT;
 const APP = express();
 let IO = undefined;
 
@@ -109,6 +119,10 @@ IO.on('connection', async (socket) => {
                 console.log('Se ha desconectado el cliente!');
         });
 });
+
+//Conexion a la BD MongoDB:
+
+conectarDB(CONFIG.URIDB, CONFIG.NAMEDB);
 
 
 

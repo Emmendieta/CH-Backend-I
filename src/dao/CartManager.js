@@ -1,10 +1,12 @@
-const fs = require('fs');
-const { ProductManager } = require('./ProductManager.js');
+//const fs = require('fs');
+import fs from "fs";
+//const { ProductManager } = require('./ProductManager.js');
+import ProductManager from './ProductManager.js';
 
 const PATH_PRODUCT_MANAGER = "./src/data/products.json"
 const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER);
 
-class CartManager {
+export class CartManager {
 
     //Constructor:
     constructor(rutaArchivo) { this.path = rutaArchivo; }
@@ -213,4 +215,6 @@ class CartManager {
     }
 }
 
-module.exports = { CartManager };
+//module.exports = { CartManager };
+
+export default CartManager;
