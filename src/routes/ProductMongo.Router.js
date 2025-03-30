@@ -104,12 +104,12 @@ ROUTER.delete("/:pid", async (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         return res.status(400).json({error: `Error: El id para el producto no es váldo! Por favor, verifique este correcto el id: ${pid}!!`});
     }
-    let productVerify = await ProductsManager.getById(pid);
-    if (!productVerify) {
-        res.setHeader('Content-Type', 'application/json');
-        return res.status(404).json({error: `Error: El producto con el id: ${pid} no existe en la Base de Datos, por favor verifiquelo!`});
-    }
     try {
+        let productVerify = await ProductsManager.getById(pid);
+        if (!productVerify) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(404).json({error: `Error: El producto con el id: ${pid} no existe en la Base de Datos, por favor verifiquelo!`});
+        }
         productVerify = await ProductsManager.delete(pid);
         res.setHeader('Content-Type', 'application/json');
         return res.status(200).json({message: `El producto con el id: ${pid}, se ha eliminado correctamente de la Base de Datos!`});

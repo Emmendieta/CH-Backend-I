@@ -1,18 +1,22 @@
 //const { Router } = require("express");
 import { Router } from "express";
 //const { CartManager } = require("../dao/CartManager.js");
-import CartManager from "../dao/CartManager.js";
+//import CartManager from "../dao/CartManager.js";
 //const { ProductManager } = require("../dao/ProductManager.js");
-import ProductManager from "../dao/ProductManager.js";
+//import ProductManager from "../dao/ProductManager.js";
+
+import { CartMongoManager as CART_MANAGER } from "../dao/CartMongoManager.js";
+import { ProductsMongoManager as PRODUCT_MANAGER } from "../dao/ProductsMongoManager.js";
+
 
 const ROUTER = Router();
 
-const PATH_CART_MANAGER = "./src/data/cart.json";
-const PATH_PRODUCT_MANAGER = "./src/data/products.json";
-const CART_MANAGER = new CartManager(PATH_CART_MANAGER);
-const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER)
+//const PATH_CART_MANAGER = "./src/data/cart.json";
+//const PATH_PRODUCT_MANAGER = "./src/data/products.json";
+//const CART_MANAGER = new CartManager(PATH_CART_MANAGER);
+//const PRODUCT_MANAGER = new ProductManager(PATH_PRODUCT_MANAGER)
 
-//Método para traer todos los carritos:
+//Método para traer todos los carritos: VERIFICAR!!!
 ROUTER.get("/", async (req, res) => {
     try {
         res.setHeader('Content-Type', 'application/json');
@@ -38,7 +42,7 @@ ROUTER.get("/", async (req, res) => {
     }
 });
 
-//Método para traer un carrito por el id:
+//Método para traer un carrito por el id: VERIFICAR:
 ROUTER.get("/:cid", async (req, res) => {
     try {
         res.setHeader('Content-Type', 'application/json');
@@ -59,7 +63,7 @@ ROUTER.get("/:cid", async (req, res) => {
     }
 });
 
-//Método para crear un nuevo carrito:
+//Método para crear un nuevo carrito: VERIFICAR!!!
 ROUTER.post("/", async (req, res) => {
     try {
         res.setHeader('Content-Type', 'application/json');
@@ -68,14 +72,14 @@ ROUTER.post("/", async (req, res) => {
         //Verifico que se creo correctamente:
         if(cart === undefined) { return res.status(500).json({error: "Error: Internal Server Error: No se pudo crear el carrito!"});}
         //Si se creo correctamente:
-        return res.status(201).json({mensaje: `Carrito creado correctamente con el id: ${cart.id}!!`, carrito: cart});
+        return res.status(201).json({mensaje: `Carrito creado correctamente con el id: ${cart._id}!!`, carrito: cart});
     } catch(error) {
         res.setHeader('Content-Type', 'application/json');
         res.status(500).json({error: "Internal Server Error"});
     }       
 });
 
-//Método para agregar un producto al carrito especificado:
+//Método para agregar un producto al carrito especificado: VERIFICAR!!!
 
 ROUTER.post("/:cid/product/:pid", async (req, res) =>  {
     try {

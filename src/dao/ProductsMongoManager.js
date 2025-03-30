@@ -3,27 +3,39 @@ import { ProductModel } from "./models/Product.Models.js";
 export class ProductsMongoManager {
     //Todo lo que trabaje con Mongoose es asincrono:
     static async get() {
-        return await ProductModel.find().lean() //el ".lean()" es para que te muestre por pantalla los datos, si no, como estan hidratados no lo muestra en HTML
+        try {
+            return await ProductModel.find().lean() //el ".lean()" es para que te muestre por pantalla los datos, si no, como estan hidratados no lo muestra en HTML
+        } catch (error) { console.error("Error: No se pudo recueprar la información de los Productos de la Base de Datos!"); }
     }
-
+//FALTAN LAS VALIDACIONES!!!!
     static async getBy(filtro ={}) {
-        return await ProductModel.findOne(filtro).lean();
+        try{
+            return await ProductModel.findOne(filtro).lean();
+        } catch(error) { console.error(`Error: No se pudo recuperar los datos del/los productos con el filtro : ${filtro} de la Base de Datos!`); }
     }
     
     static async getById(id) {
-        return await ProductModel.findById(id).lean();
+        try {
+            return await ProductModel.findById(id).lean();
+        } catch (error) { console.error(`Error: No se pudo recuperar el Producto con el id: ${id} de la Base de Datos!`); }
     }
 
     static async save(product) {
         //VER SI EN EL ROUTER SE ESTAN VALIDANDO CORRECTAMENTE LA INFO:
-        return await ProductModel.create(product);
+        try{
+            return await ProductModel.create(product);
+        } catch (error) { console.error(`Error: No se pudo guardar el producto ${product} en la Base de Datos!`);}
     }
 
     static async update(id, product) {
-        return await ProductModel.findByIdAndUpdate(id, product, {new: true}).lean();
+        try {
+            return await ProductModel.findByIdAndUpdate(id, product, {new: true}).lean();
+        } catch (error) {console.error(`Error: No se pudo actualizar el producto con el id: ${id} en la Base de Datos!`); }
     }
 
     static async delete(id) {
-        return await ProductModel.findByIdAndDelete(id).lean();
+        try {
+            return await ProductModel.findByIdAndDelete(id).lean();
+        } catch (error) {console.error(`Error: No se pudo eliminar el producto con el id: ${id} de la Base de Datos!!`); }
     }
 }

@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import MONGOOSE from "mongoose";
 
 const productSchema = new MONGOOSE.Schema(
@@ -41,7 +40,7 @@ const productSchema = new MONGOOSE.Schema(
     }
 );
 
-export const ProductModel = mongoose.model(
+export const ProductModel = MONGOOSE.model(
     "products",
     productSchema
 );
