@@ -2,9 +2,12 @@ import { ProductModel } from "./models/Product.Models.js";
 
 export class ProductsMongoManager {
     //Todo lo que trabaje con Mongoose es asincrono:
-    static async get() {
+    
+    //Get con paginate
+    static async get(page = 1, limit = 10) {
         try {
-            return await ProductModel.find().lean() //el ".lean()" es para que te muestre por pantalla los datos, si no, como estan hidratados no lo muestra en HTML
+            //return await ProductModel.paginate({},{page, limit, sort: {}, lean:true}) //Aca en el sort tiene que ir 1 o -1 para ordenar asencendente o descendente
+            return await ProductModel.paginate({},{page, limit, lean:true}) //el ".lean()" es para que te muestre por pantalla los datos, si no, como estan hidratados no lo muestra en HTML
         } catch (error) { console.error("Error: No se pudo recueprar la información de los Productos de la Base de Datos!"); }
     }
 //FALTAN LAS VALIDACIONES!!!!

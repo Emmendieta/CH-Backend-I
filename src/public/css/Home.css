@@ -3,15 +3,15 @@
     list-style: none; 
     margin: 0;
     padding: 0;
-    background-color: grey;
+    background-color: rgb(49, 48, 48);
 }
 
-#homeh1Title {
+#homeh1Title, #homeh2Title {
     display: flex;
     justify-content: space-around;
     margin: 15px;
     font-size: 45px;
-    color: lightcoral;
+    color: rgb(36, 36, 226);
 } 
 
 #homeUlProducts {
@@ -25,14 +25,46 @@
     flex:  1 1 calc(33.333% - 20px);
     box-sizing: border-box;
     margin: 10px;
-    border: 2px solid black;
+    border: 2px solid white;
     border-radius: 15px;
     padding: 15px;
-    background-color: lightblue;
+    background-color: rgb(209, 206, 206);
 }
 
-.homeUlLih2, .homeUlLih3, .homeUlLih4  {
-    color: blueviolet;
-    margin: 5px;
-    background-color: lightblue;
+.homeUlLiDiv {
+    display: flex;
+    background-color: rgb(209, 206, 206);
 }
+
+.homeUlLih2, .homeUlLih3, .homeUlLih4, .homeUlLih5, .homeUlLih6, .homeUlLip  {
+    color: rgb(56, 153, 97);
+    margin: 5px;
+    background-color: rgb(209, 206, 206);
+}
+
+#homeDivFooter {
+    display: flex;
+    justify-content: space-between;
+}
+
+#homeDivFtA1, #homeDivFtAPrev, #homeDivFtANext, #homeDivFtALast {
+    color: brown;
+    margin: 15px;
+    font-size: 20px;
+}
+
+.homeUlLiDivBottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(209, 206, 206);
+}
+
+.btnAddProductToCart {
+    padding: 5px;
+    background-color: lightblue;
+    border-radius: 5px;
+    color: rgb(44, 12, 224);
+}
+
+

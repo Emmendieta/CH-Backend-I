@@ -7,7 +7,7 @@ import { ROUTER as PRODUCT_ROUTER } from './routes/ProductMongo.Router.js';
 //import CART_ROUTER from "./routes/Cart.Router.js";
 import { ROUTER as CART_ROUTER } from './routes/Cart.Router.Mongo.js';
 //import { VIEW_ROUTER } from "./routes/Views.Router.js";
-import { ProductManager } from '../src/dao/ProductManager.js';
+//import { ProductManager } from '../src/dao/ProductManager.js';
 import { conectarDB } from "./connectionDB.js";
 import { CONFIG } from "./config/config.js";
 //Importo el Router de Vistar Router de MongoDB:
@@ -52,11 +52,11 @@ APP.use("/api/carts", CART_ROUTER);
 APP.use("/", VIEW_ROUTER);
 
 //Declaro la página de inicio:
-APP.get("/", (req, res) => {
+/* APP.get("/", (req, res) => {
         res.setHeader('Content-Type', 'text/plain');
         res.status(200).send('OK');
 });
-
+ */
 const SERVER_HTTP = APP.listen(PORT, () => {//Mi servidor HTTP:
         console.log(`Servidor escuchando en el puerto ${PORT}`);
 });

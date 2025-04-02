@@ -8,11 +8,21 @@ export const ROUTER = Router();
 
 ROUTER.get('/', async (req, res) => {
     try {
+        let {page, limit} = req.query;
+        if (!page) { page = 1 };
+        if (!limit) { limit = 10 };
         //Obtengo los productos con MongoDB:
-        let products = await ProductsManager.get();
+        let {docs: products, totalPages, hasNextPage, nextPage, hasPrevPage, prevPage} = await ProductsManager.get(page, limit);
         res.setHeader('Content-Type', 'applicaction/json');
         //Devuelvo los productos de la BD:
-        res.status(200).json({products});
+        res.status(200).json({
+            products, 
+            totalPages, 
+            hasNextPage, 
+            nextPage, 
+            hasPrevPage, 
+            prevPage, 
+            page});
     } catch (error) { procesaErrores(error, res); }
 });
 

@@ -1,6 +1,4 @@
-//const { Router } = require("express");
 import { Router } from "express";
-//const { ProductManager } = require("../dao/ProductManager.js");
 import ProductManager from "../dao/ProductManager.js";
 
 const ROUTER = Router();

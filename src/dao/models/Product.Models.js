@@ -1,4 +1,5 @@
 import MONGOOSE from "mongoose";
+import PAGINATE from "mongoose-paginate-v2";
 
 const productSchema = new MONGOOSE.Schema(
     {
@@ -39,6 +40,9 @@ const productSchema = new MONGOOSE.Schema(
         timestamps: true //Agrega automatica la fecha cuando se crea y modifico un producto.
     }
 );
+
+//Plugin de Paginate:
+productSchema.plugin(PAGINATE);
 
 export const ProductModel = MONGOOSE.model(
     "products",

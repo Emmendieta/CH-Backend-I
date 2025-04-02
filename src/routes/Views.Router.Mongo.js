@@ -3,13 +3,37 @@ import { ProductsMongoManager as ProductsManager } from '../dao/ProductsMongoMan
 import { procesaErrores } from '../utils.js';
 export const ROUTER = Router();
 
-ROUTER.get('/products', async(req, res) => {
-    try {
-        let products = await ProductsManager.get();
-        console.log(products);
-    
-        res.render("products", {
-            products
+ROUTER.get('/', async (req, res) => {
+    let {page, limit} = req.query;
+    if(!page) { page = 1};
+    if (!limit) { limit = 10};
+    //Obtengo a los productos:
+    let {docs:products, totalPages, hasNextPage, nextPage, hasPrevPage, prevPage } = await ProductsManager.get(page, limit);
+
+    res.render("products", { 
+        products,
+        totalPages, 
+        hasNextPage, 
+        nextPage, 
+        hasPrevPage, 
+        prevPage
+    });
+});
+
+
+ROUTER.get('/products', async (req, res) => {
+        let {page, limit} = req.query;
+        if(!page) { page = 1};
+        if (!limit) { limit = 10};
+        //Obtengo a los productos:
+        let {docs:products, totalPages, hasNextPage, nextPage, hasPrevPage, prevPage } = await ProductsManager.get(page, limit);
+
+        res.render("products", { 
+            products,
+            totalPages, 
+            hasNextPage, 
+            nextPage, 
+            hasPrevPage, 
+            prevPage
         });
-    } catch (error) { procesaErrores(error, res); }
 });

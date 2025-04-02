@@ -1,16 +1,65 @@
-<h2>Products</h2>
-<ul>
-    {{#each products}}
-        <li>
-            <h3>{{title}}</h3>
-            <h4>${{price}}</h4>
-            <h4>{{code}}</h4>
-            <h5>{{stock}}</h5>
-            <h5>{{code}}</h5>
-            <h6>{{category}}</h6>
-            <h6>{{status}}</h6>
-            <h6>{{thumbnails}}</h6>
-            <p>{{description}}</p>
-        </li>
-    {{/each}}
-</ul>
+<head>
+    <link rel="stylesheet" href="/css/Home.css">
+</head>
+
+<div id="homeDivTitle">
+    <section id="homeDivSectTop">
+        <h2 id="homeh2Title">Products</h2>
+    </section>
+    <section id="homeDivSectMiddle">
+        <ul id="homeUlProducts">
+            {{#each products}}
+            <li class="homeUlLi">
+                <div class="homeUlLiDiv">
+                    <h3 class="homeUlLih3">Title: </h3>
+                    <h3 class="homeUlLih3">{{title}}</h3>
+                </div>
+                <div class="homeUlLiDiv">
+                    <h4 class="homeUlLih4">Price: $</h4>
+                    <h4 class="homeUlLih4">{{price}}</h4>
+                </div>
+                <div class="homeUlLiDiv">
+                    <h4 class="homeUlLih4">Code: </h4>
+                    <h4 class="homeUlLih4">{{code}}</h4>
+                </div>
+                <div class="homeUlLiDiv">
+                    <h5 class="homeUlLih5">Stock: </h5>
+                    <h5 class="homeUlLih5">{{stock}}</h5>
+                </div>
+                <div class="homeUlLiDiv">
+                    <h6 class="homeUlLih6">Category: </h6>
+                    <h6 class="homeUlLih6">{{category}}</h6>
+                </div>
+                <div class="homeUlLiDiv">
+                    <h6 class="homeUlLih6">Status: </h6>
+                    <h6 class="homeUlLih6">{{status}}</h6>
+                </div>
+                <div class="homeUlLiDiv">
+                    <h6 class="homeUlLih6">Thumbnails: </h6>
+                    <h6 class="homeUlLih6">{{thumbnails}}</h6>
+                </div>
+                <div class="homeUlLiDiv">
+                    <p class="homeUlLip">Description: </p>
+                    <p class="homeUlLip">{{description}}</p>
+                </div>
+                <div class="homeUlLiDivBottom">
+                    <button class="btnAddProductToCart">Add to Cart</button>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </section>
+</div>
+<div id="homeDivFooter">
+    <a href="/products?page=1" id="homeDivFtA1">Página 1</a>
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}" id="homeDivFtAPrev">Página Anterior</a>
+    {{/if}}
+
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}" id="homeDivFtANext">Página Siguiente</a>
+    {{/if}}
+    <a href="/products?page={{totalPages}}" id="homeDivFtALast">Última Página</a>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>

@@ -21,27 +21,6 @@ export class CartMongoManager {
         } catch (error) { console.error("Error: no se pudo crear correctamente el carrito!"); }
     }
 
-/*     //Método para crear un nuevo carrito:
-    async createCart() {
-        try {
-            let newCart = undefined;
-            let carts = await this.getCarts();
-            let id = 1;
-            if (carts.length > 0) { id = Math.max(...carts.map(cart => cart.id)) + 1; }
-            //Creo el arreglo vacio para los productos a agregar en el carrito nuevo:
-            let newProductos = [];
-            //Creo el nuevo carrito con los datos requeridos:
-            newCart = { id: id, products: newProductos };
-            //Pusheo el carrito al arreglo de carritos:
-            carts.push(newCart);
-            //Guardo el array de carritos en el archivo que sirve como Base de datos:
-            await fs.promises.writeFile(this.path, JSON.stringify(carts, null, "\t"));
-            //Informo que se agrego correctamente el carrito:
-            console.log("Carrito agregado correctamente!");
-            return newCart;
-        } catch (error) { console.error("Error: No se pudo crear correctamente el carrito!"); }
-    } */
-
     //Método para validar la información ingresada: VER SI VA
     async validateData(products) {
         try {
