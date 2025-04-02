@@ -20,7 +20,6 @@ ROUTER.get('/', async (req, res) => {
     });
 });
 
-
 ROUTER.get('/products', async (req, res) => {
         let {page, limit} = req.query;
         if(!page) { page = 1};

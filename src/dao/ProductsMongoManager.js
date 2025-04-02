@@ -11,18 +11,20 @@ export class ProductsMongoManager {
         } catch (error) { console.error("Error: No se pudo recueprar la información de los Productos de la Base de Datos!"); }
     }
 //FALTAN LAS VALIDACIONES!!!!
-    static async getBy(filtro ={}) {
+    static async getBy(filtro = {}) {
         try{
             return await ProductModel.findOne(filtro).lean();
         } catch(error) { console.error(`Error: No se pudo recuperar los datos del/los productos con el filtro : ${filtro} de la Base de Datos!`); }
     }
     
+    //Método para recuperar un producto por id:
     static async getById(id) {
         try {
             return await ProductModel.findById(id).lean();
         } catch (error) { console.error(`Error: No se pudo recuperar el Producto con el id: ${id} de la Base de Datos!`); }
     }
 
+    //Método para guardar un producto:
     static async save(product) {
         //VER SI EN EL ROUTER SE ESTAN VALIDANDO CORRECTAMENTE LA INFO:
         try{
@@ -30,12 +32,14 @@ export class ProductsMongoManager {
         } catch (error) { console.error(`Error: No se pudo guardar el producto ${product} en la Base de Datos!`);}
     }
 
+    //Método para actualizar un producto:
     static async update(id, product) {
         try {
             return await ProductModel.findByIdAndUpdate(id, product, {new: true}).lean();
         } catch (error) {console.error(`Error: No se pudo actualizar el producto con el id: ${id} en la Base de Datos!`); }
     }
 
+    //Método para eliminar un Producto por id:
     static async delete(id) {
         try {
             return await ProductModel.findByIdAndDelete(id).lean();

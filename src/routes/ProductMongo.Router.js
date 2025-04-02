@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { procesaErrores } from "../utils.js";
 import { ProductsMongoManager  as ProductsManager} from "../dao/ProductsMongoManager.js";
+import { CartMongoManager as CartMananger } from "../dao/CartMongoManager.js";
 import { isValidObjectId } from "mongoose";
 export const ROUTER = Router();
 
@@ -26,8 +27,7 @@ ROUTER.get('/', async (req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Obtener un producto por su id:
-
+//Obtener un producto por su id: ---------- OK ----------:
 ROUTER.get('/:pid', async(req, res) => {
     let { pid } =  req.params;
     if (!isValidObjectId(pid)) {
@@ -45,8 +45,7 @@ ROUTER.get('/:pid', async(req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Crear un Producto:
-
+//Crear un Producto: ---------- OK ----------:
 ROUTER.post("/", async(req, res) => {
     let {title, description, code, price, status, stock, category, thumbnails} = req.body;
     //En caso de que no brinde toda los requerimientos para dar el alta a un nuevo Producto:
@@ -81,8 +80,7 @@ ROUTER.post("/", async(req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Actualizar un producto:
-
+//Actualizar un producto: ---------- OK ----------:
 ROUTER.put("/:pid", async (req, res) => {
     //Valido que el id sea correcto de MongoDB:
     let {pid} = req.params;
@@ -90,23 +88,35 @@ ROUTER.put("/:pid", async (req, res) => {
         res.setHeader('Content-Type', 'application/json');
         return res.status(400).json({error: `Error: El id para el producto no es váldo! Por favor, verifique este correcto el id: ${pid}!!`});
     }
-    //Realizar despues las validaciones correspondientes para que no de ok, cuando no corresponde:
     let varModify = req.body;
+    //En caso de que no se ingreso nada en el body:
+    if (Object.keys(varModify).length === 0) {
+        console.log("aca")
+        res.setHeader('Content-Type', 'application/json');
+        return res.status(400).json({error: "Error: Por favor, ingrese los valores correspondientes para poder modificar al producto!"});
+    }
     try {
         let productModify = await ProductsManager.getById(pid);
         if (!productModify) { 
             res.setHeader('Content-Type', 'application/json');  
             return res.status(404).json({error: `Error: El producto con el id: ${pid} no existe en la Base de Datos, por favor, verifique que sea correcto!!!`});
         }
-        //FALTA VERIFICAR SI SE TRATA DE MODIFICAR CON LOS MISMOS VALORES QUE ESTAN EN LA BD:
+        // Verificar si al menos una propiedad coincide con la base de datos
+        let keyConflicts = Object.keys(varModify).filter(key => 
+            JSON.stringify(varModify[key]) === JSON.stringify(productModify[key])
+        );
+
+        // Si al menos una propiedad coincide, bloqueamos la actualización
+        if (keyConflicts.length > 0) {
+            return res.status(400).json({ error: `Error: No se realizaron cambios porque los siguientes valores ya existen en la base de datos: ${keyConflicts.join(", ")}`});
+        }
         productModify = await ProductsManager.update(pid, varModify);
         res.setHeader('Content-Type', 'application/json');
         return res.status(200).json({message: "Producto modificado correctamente en la Base de Datos!", productModify});
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Eliminar un producto:
-
+//Eliminar un producto: ---------- OK ----------:
 ROUTER.delete("/:pid", async (req, res) => {
     //Valido que el id sea correcto en MongoDB:
     let {pid} = req.params;
@@ -115,13 +125,25 @@ ROUTER.delete("/:pid", async (req, res) => {
         return res.status(400).json({error: `Error: El id para el producto no es váldo! Por favor, verifique este correcto el id: ${pid}!!`});
     }
     try {
+        //Verifico si existe el producto en la Base de Datos:
         let productVerify = await ProductsManager.getById(pid);
         if (!productVerify) {
             res.setHeader('Content-Type', 'application/json');
             return res.status(404).json({error: `Error: El producto con el id: ${pid} no existe en la Base de Datos, por favor verifiquelo!`});
         }
+        //traigo todos los carritos para verificar si existe el producto en alguno:
+        let carts = await CartMananger.getCarts();
+        //Verifico si el producto existe en algun carrito:
+        let verifyProductInCart = carts.some(cart => cart.products.some(pro => pro.product._id.toString() === pid ));
+        console.log(verifyProductInCart);
+        //Si existe en almenos algun carrito, largo el error:
+        if (verifyProductInCart) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(400).json({error: `Error: No se puede eliminar el producto con el id: ${pid} porque esta asociado a algun carrito en la Base de Datos!`});
+        }
+        //En el caso de que no este asociado a ningun carrito lo elimino:
         productVerify = await ProductsManager.delete(pid);
         res.setHeader('Content-Type', 'application/json');
-        return res.status(200).json({message: `El producto con el id: ${pid}, se ha eliminado correctamente de la Base de Datos!`});
+        return res.status(200).json({message: `El producto con el id: ${pid}, se ha eliminado correctamente de la Base de Datos!`}); 
     } catch (error) { procesaErrores(error, res); }
 });

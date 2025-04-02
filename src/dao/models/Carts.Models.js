@@ -16,7 +16,8 @@ const cartSchema = new MONGOOSE.Schema(
                         min: 1 //Cantidad mínima aceptada
                     }
                 }
-            ]
+            ], 
+            default: [""]
         }
     },
     {
