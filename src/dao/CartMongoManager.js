@@ -88,7 +88,7 @@ export class CartMongoManager {
             //Actualizo el listado de productos en el carrito (Elimino al producto si coincide el idProduct):
             cart.products = cart.products.filter(pro => pro.product._id.toString() !== productId);
             //En caso de que no quede ningun producto en el carrito, establezco el array como vacio segun lo establecido en las consignas:
-            if (cart.products.length === 0) { cart.products = [""]; }
+            if (cart.products.length === 0) { cart.products = []; }
             //Actualizo el carrito en la Base de Datos:
             let update = undefined;
             update = await this.updateCart(id, {products: cart.products});  

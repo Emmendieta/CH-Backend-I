@@ -135,7 +135,6 @@ ROUTER.delete("/:pid", async (req, res) => {
         let carts = await CartMananger.getCarts();
         //Verifico si el producto existe en algun carrito:
         let verifyProductInCart = carts.some(cart => cart.products.some(pro => pro.product._id.toString() === pid ));
-        console.log(verifyProductInCart);
         //Si existe en almenos algun carrito, largo el error:
         if (verifyProductInCart) {
             res.setHeader('Content-Type', 'application/json');
