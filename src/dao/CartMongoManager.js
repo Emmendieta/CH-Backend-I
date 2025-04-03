@@ -30,22 +30,6 @@ export class CartMongoManager {
         } catch (error) { console.error("Error: no se pudo crear correctamente el carrito!"); }
     }
 
-/*     //Método para validar la información ingresada: VER SI VA
-    async validateData(products) {
-        try {
-            //Recorro a los productos dentro del array:
-            for (let product of products) {
-                if (typeof product.id !== 'number' || product.id <= 0) { return false; }
-                else if (typeof product.quantity !== 'number' || product.quantity <= 0) { return false; }
-                //Verifico que exista el producto en la Base de Datos:
-                let productBD = await PRODUCT_MANAGER.getProduct(product.id);
-                if (productBD === null || productBD === undefined) { return false; }
-                //Si los datos ingresados estan correctos y el producto existe en la Base de Datos devuelvo true:
-                else { return true; }
-            }
-        } catch (error) { console.error("Error: No se pudo verificar correctamente la información con respecto al id del producto o la cantidad!"); }
-    }
- */
     //Actualizar un Carrito: ---------- OK ----------:
     static async updateCart(id, aModificar ={}) {
         try {
@@ -73,7 +57,7 @@ export class CartMongoManager {
         }
     }
 
-    //Método para Eliminar un Carrito: VERIFICAR SI ESTA OK:
+    //Método para Eliminar un Carrito: ---------- OK ----------:
     static async deleteCart(id) {
         try {
             return await CartsModel.findByIdAndDelete(id).lean();

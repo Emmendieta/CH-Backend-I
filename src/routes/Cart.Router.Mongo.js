@@ -131,7 +131,80 @@ ROUTER.post("/:cid/product/:pid", async (req, res) =>  {
     }
 });
 
-//Elimino un Carrito: ACA NO SE TIENE QUE ELIMINAR EL CARRITO! SE TIENEN QUE ELIMINAR LOS PRODUCTOS QUE ESTEN EN EL!!!
+//Método para agregar varios productos al carrito especificado: SERGUIR ACAAAAAAAAAAA:
+ROUTER.put("/:cid", async (req, res) =>  {
+    try {
+        res.setHeader('Content-Type', 'application/json');  
+        //Obtengo los datos de los parametros:
+        let {cid} = req.params;
+        let {products} = req.body;
+        //Valido que el id del carrito sea valido:
+        if (!isValidObjectId(cid)) { 
+            res.setHeader('Content-Type', 'application/json'); 
+            return res.status(400).json({error: `Error: El id: ${cid} del carrito no es un formato válido, por favor verifiquelo!`});
+        }
+        //Verifico que sea un array que se envia en el body:
+        if(!Array.isArray(products) || products.length === 0) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(400).json({error: "Debe enviar un Array de productos o en su defecto, el array no debe ser vacio!"});
+        }
+        //Verifico que el carrito exista:
+        let cart = await CART_MANAGER.getCartById(cid);
+        if (!cart) { 
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(404).json({error: `Error: No existe el carrito con el id: ${cid}`}); 
+        }
+        //Itero sobre cada producto enviado en el body:
+        for (let pro of products) {
+            let {product, quantity} = pro;
+            let pid = product
+            //Valido que el id sea valido:
+            if (!isValidObjectId(pid)) {
+                res.setHeader('Content-Type', 'application/json');
+                return res.status(404).json({error: `Error: El id: "${pid}" no válido, por favor, verifiquelo!`});
+            }
+            //Recupero la información del producto:
+            let recoveryProduct = await PRODUCT_MANAGER.getById(pid);
+            if (!recoveryProduct) {
+                res.setHeader('Content-Type', 'application/json');
+                return res.status(400).json({error: `Error: No existe el producto con el id: ${pid} en la Base de Datos!`});
+            }
+            //Verifico que la cantidad sea un número entero:
+            quantity = Number(quantity);
+            if (isNaN(quantity)) {
+                res.setHeader('Content-Type', 'application/json');
+                return res.status(400).json({error: "Error: La cantidad tiene que ser un valor numérico!"});
+            }
+            if (quantity <= 0 || quantity > recoveryProduct.stock) {
+                res.setHeader('Content-Type', 'application/json');  
+                return res.status(400).json({error: `Error: La cantidad tiene que ser superior a Cero (0) y no puede superar el stock del producto: ${recoveryProduct.stock}. Ud ingreso: ${quantity}, por favor verifiquelo!`});
+            }
+            //Verifico si existe el producto en el carrito:
+            let verifyProductInCart = await CART_MANAGER.verifyProductInCart(cid, pid);
+            if (verifyProductInCart === false) {
+                cart.products.push({product: pid, quantity: quantity});
+            } else {
+                //Verifico si existe el producto en el carrito:
+                let productIndex = cart.products.findIndex(pro => pro.product._id.equals(pid));
+                //En caso de que exista en el carrito, pero tiene la misma cantidad:
+                if (cart.products[productIndex].quantity === quantity) {
+                    res.setHeader('Content-Type', 'application/json');
+                    return res.status(400).json({error: `Error: Por favor, ingrese para el producto con id: ${pid}, una cantidad diferente a: ${quantity}, ya que la misma ya esta almacenada en la Base de Datos!`});
+                }
+                cart.products[productIndex].quantity = quantity;
+            }
+        }
+        //Guardo los cambios en la BD:
+        cart = await CART_MANAGER.updateCart(cid, { products: cart.products });
+        return res.status(200).json({ message: "Felicidades se actualizo correctamente el carrito!", carrito: cart});    
+    } catch (error) {
+        res.setHeader('Content-Type', 'application/json');
+        res.status(500).json({error: "Internal Server Error"});
+    }
+});
+
+
+//Elimino un Carrito: No esta en la consgina pero se hizo:
 ROUTER.delete("/:cid", async(req, res) => {
     let { cid } = req.params;
     if(!isValidObjectId(cid)) {
