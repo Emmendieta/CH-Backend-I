@@ -6,7 +6,6 @@ import { procesaErrores } from "../utils.js";
 
 export const ROUTER = Router();
 
-//Método para traer todos los carritos: VERIFICAR!!! FALTAN CONDICIONES!
 ROUTER.get("/", async (req, res) => {
     try {
         res.setHeader('Content-Type', 'application/json');
@@ -32,7 +31,7 @@ ROUTER.get("/", async (req, res) => {
     }
 });
 
-//Método para traer un carrito por el id: ---------- OK ----------:
+//Método para traer un carrito por el id: 
 ROUTER.get("/:cid", async (req, res) => {
     try {
         res.setHeader('Content-Type', 'application/json');
@@ -52,7 +51,7 @@ ROUTER.get("/:cid", async (req, res) => {
     }
 });
 
-//Método para crear un nuevo carrito: ---------- OK ----------:
+//Método para crear un nuevo carrito: 
 ROUTER.post("/", async (req, res) => {
     try {
         res.setHeader('Content-Type', 'application/json');
@@ -68,7 +67,7 @@ ROUTER.post("/", async (req, res) => {
     }       
 });
 
-//Método para agregar un producto al carrito especificado: ---------- OK ----------:
+//Método para agregar un producto al carrito especificado: 
 ROUTER.post("/:cid/product/:pid", async (req, res) =>  {
     try {
         res.setHeader('Content-Type', 'application/json');  
@@ -131,7 +130,7 @@ ROUTER.post("/:cid/product/:pid", async (req, res) =>  {
     }
 });
 
-//Método para agregar varios productos al carrito especificado: SERGUIR ACAAAAAAAAAAA:
+//Método para agregar varios productos al carrito especificado: 
 ROUTER.put("/:cid", async (req, res) =>  {
     try {
         res.setHeader('Content-Type', 'application/json');  
@@ -203,8 +202,7 @@ ROUTER.put("/:cid", async (req, res) =>  {
     }
 });
 
-
-//Elimino un Carrito: No esta en la consgina pero se hizo:
+//Elimino un Carrito: 
 ROUTER.delete("/:cid", async(req, res) => {
     let { cid } = req.params;
     if(!isValidObjectId(cid)) {
@@ -217,13 +215,27 @@ ROUTER.delete("/:cid", async(req, res) => {
             res.setHeader('Content-Type', 'application/json');  
             return res.status(404).json({error: `Error: No existe el carrito con el id: ${cid} en la Base de Datos!`});
         }
-        verifyCart = await CART_MANAGER.deleteCart(cid);
-        res.setHeader('Content-Type', 'application/json');
-        return res.status(200).json({mensaje: `Se ha eliminado correctamente el carrito con el id: ${cid} de la Base de Datos!`});
+        let verifyPorductsDeleted = await CART_MANAGER.deleteAllProductsInCart(cid);
+        if (verifyPorductsDeleted === -1) {
+            res.setHeader('Content-Type', 'application/json');  
+            return res.status(404).json({error: `Error: No existe el carrito con el id: ${cid} en la Base de Datos!`});
+        }
+        else if (verifyPorductsDeleted === 0) {
+            res.setHeader('Content-Type', 'application/json');  
+            return res.status(404).json({error: `Error: No existe productos asociados al carrito con el id: ${cid} por lo que no se puede eliminar nada!`});
+        }
+        else if (verifyPorductsDeleted === 1) {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(400).json({mensaje: `Se No se han eliminado correctamente los productos asociados al carrito con el id: ${cid} de la Base de Datos!`});            
+        }
+        else {
+            res.setHeader('Content-Type', 'application/json');
+            return res.status(200).json({mensaje: `Se han eliminado correctamente los productos asociados al carrito con el id: ${cid} de la Base de Datos!`});     
+        }
     } catch(error) { procesaErrores(error, res); }
 });
 
-//Eliminar un Producto del Carrito: ---------- OK ----------:
+//Eliminar un Producto del Carrito: 
 ROUTER.delete("/:cid/product/:pid", async(req, res) => {
     let {cid, pid} = req.params;
     //Verifico que el id del Carrito sea valido:

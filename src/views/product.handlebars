@@ -1,0 +1,60 @@
+<head>
+    <link rel="stylesheet" href="/css/Home.css">
+</head>
+
+<div id="homeDivTitle">
+    <h2 id="homeh2Title">Product Detail:</h1>
+</div>
+<section id="homeDivCart">
+    <p id="homeDivCartP">Número del Carrito: </p>
+    <input type="text" id="homeDivSectCartId">
+</section>
+<div>
+    {{product}}
+    <div class="homeUlLiDiv">
+        <h3 class="homeUlLih3">Title: </h3>
+        <h3 class="homeUlLih3">{{title}}</h3>
+    </div>
+    <div class="homeUlLiDiv">
+        <h3 class="homeUlLih3">Id: </h3>
+        <h3 class="homeUlLih3" id="homeUlLiH3Id">{{_id}}</h3>
+    </div>
+    <div class="homeUlLiDiv">
+        <h3 class="homeUlLih3">Code: </h3>
+        <h3 class="homeUlLih3Code">{{code}}</h3>
+    </div>
+    <div class="homeUlLiDiv">
+        <h3 class="homeUlLih3">Price: $</h3>
+        <h3 class="homeUlLih3">{{price}}</h3>
+    </div>
+    <div class="homeUlLiDiv">
+        <h3 class="homeUlLih3">Stock: </h3>
+        <h3 class="homeUlLih3Stock">{{stock}}</h3>
+    </div>
+    <div class="homeUlLiDiv">
+        <h4 class="homeUlLih4">Category: </h4>
+        <h4 class="homeUlLih4">{{category}}</h4>
+    </div>
+    <div class="homeUlLiDiv">
+        <h4 class="homeUlLih4">Status: </h4>
+        <h4 class="homeUlLih4">{{status}}</h4>
+    </div>
+    <div class="homeUlLiDiv">
+        <h4 class="homeUlLih4">Thumbnails: </h4>
+        <h4 class="homeUlLih4">{{thumbnails}}</h4>
+    </div>
+    <div class="homeUlLiDiv">
+        <h4 class="homeUlLih4">Description: </h4>
+        <h4 class="homeUlLih4">{{description}}</h4>
+    </div>
+</div>
+<div class="homeUlLiDivBottom">
+    <button class="btnAddProduct">Add to Cart</button>
+    <div class="homeUlLiDivBottomQuantity">
+        <p class="homeUlLiDivBottomQuantityP"> Quantity: </p>
+        <input type="number" id="homeUlLiDivQuantityInput">
+    </div>
+</div>
+
+
+<script src="/js/product.js"></script>

@@ -14,7 +14,7 @@ ROUTER.get('/', async (req, res) => {
         if (!limit) { limit = 10 };
         //Obtengo los productos con MongoDB:
         let {docs: products, totalPages, hasNextPage, nextPage, hasPrevPage, prevPage} = await ProductsManager.get(page, limit);
-        res.setHeader('Content-Type', 'applicaction/json');
+        res.setHeader('Content-Type', 'application/json');
         //Devuelvo los productos de la BD:
         res.status(200).json({
             products, 
@@ -27,7 +27,7 @@ ROUTER.get('/', async (req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Obtener un producto por su id: ---------- OK ----------:
+//Obtener un producto por su id: 
 ROUTER.get('/:pid', async(req, res) => {
     let { pid } =  req.params;
     if (!isValidObjectId(pid)) {
@@ -45,7 +45,7 @@ ROUTER.get('/:pid', async(req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Crear un Producto: ---------- OK ----------:
+//Crear un Producto: 
 ROUTER.post("/", async(req, res) => {
     let {title, description, code, price, status, stock, category, thumbnails} = req.body;
     //En caso de que no brinde toda los requerimientos para dar el alta a un nuevo Producto:
@@ -80,7 +80,7 @@ ROUTER.post("/", async(req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Actualizar un producto: ---------- OK ----------:
+//Actualizar un producto: 
 ROUTER.put("/:pid", async (req, res) => {
     //Valido que el id sea correcto de MongoDB:
     let {pid} = req.params;
@@ -116,7 +116,7 @@ ROUTER.put("/:pid", async (req, res) => {
     } catch (error) { procesaErrores(error, res); }
 });
 
-//Eliminar un producto: ---------- OK ----------:
+//Eliminar un producto: 
 ROUTER.delete("/:pid", async (req, res) => {
     //Valido que el id sea correcto en MongoDB:
     let {pid} = req.params;

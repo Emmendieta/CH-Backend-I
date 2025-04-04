@@ -6,10 +6,18 @@
     <section id="homeDivSectTop">
         <h2 id="homeh2Title">Products</h2>
     </section>
+    <section id="homeDivCart">
+        <p id="homeDivCartP">Número del Carrito: </p>
+        <input type="text" id="homeDivSectCart">
+    </section>
     <section id="homeDivSectMiddle">
         <ul id="homeUlProducts">
             {{#each products}}
             <li class="homeUlLi">
+                <div class="homeUlLiDiv">
+                    <h3 class="homeUlLih3">Code: </h3>
+                    <h3 class="homeUlLih3">{{id}}</h3>
+                </div>
                 <div class="homeUlLiDiv">
                     <h3 class="homeUlLih3">Title: </h3>
                     <h3 class="homeUlLih3">{{title}}</h3>
@@ -44,22 +52,34 @@
                 </div>
                 <div class="homeUlLiDivBottom">
                     <button class="btnAddProductToCart">Add to Cart</button>
+                    <div class="homeUlLiDivBottomQuantity">
+                        <p class="homeUlLiDivBottomQuantityP"> Ingrese la cantidad: </p>
+                        <input type="number" id="homeUlLiDivBottomQuantityInput">
+                    </div>
                 </div>
             </li>
             {{/each}}
         </ul>
     </section>
 </div>
+
+<div id="homeDivPagination">
+    <p class="homeDivPaginationP">Página actual: {{page}} de {{totalPages}}</p>
+    <p class="homeDivPaginationP">¿Tiene página anterior?: {{#if hasPrevPage}}Sí{{else}}No{{/if}}</p>
+    <p class="homeDivPaginationP">¿Tiene página siguiente?: {{#if hasNextPage}}Sí{{else}}No{{/if}}</p>
+</div>
+
 <div id="homeDivFooter">
     <a href="/products?page=1" id="homeDivFtA1">Página 1</a>
     {{#if hasPrevPage}}
-        <a href="/products?page={{prevPage}}" id="homeDivFtAPrev">Página Anterior</a>
+    <a href="/products?page={{prevPage}}" id="homeDivFtAPrev">Página Anterior</a>
     {{/if}}
 
     {{#if hasNextPage}}
-        <a href="/products?page={{nextPage}}" id="homeDivFtANext">Página Siguiente</a>
+    <a href="/products?page={{nextPage}}" id="homeDivFtANext">Página Siguiente</a>
     {{/if}}
     <a href="/products?page={{totalPages}}" id="homeDivFtALast">Última Página</a>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/js/cart.js"></script>

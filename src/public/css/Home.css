@@ -36,7 +36,7 @@
     background-color: rgb(209, 206, 206);
 }
 
-.homeUlLih2, .homeUlLih3, .homeUlLih4, .homeUlLih5, .homeUlLih6, .homeUlLip  {
+.homeUlLih2, .homeUlLih3, .homeUlLih4, .homeUlLih5, .homeUlLih6, .homeUlLip, .homeUlLih3Stock, .homeUlLih3Code    {
     color: rgb(56, 153, 97);
     margin: 5px;
     background-color: rgb(209, 206, 206);
@@ -60,11 +60,49 @@
     background-color: rgb(209, 206, 206);
 }
 
-.btnAddProductToCart {
+.homeUlLiDivBottomQuantity {
+    display: flex;  
+    background-color: rgb(209, 206, 206);
+}
+
+.homeUlLiDivBottomQuantityP, #homeUlLiDivBottomQuantityInput, #homeUlLiDivQuantityInput  {
+    background-color: rgb(209, 206, 206);
+    margin: 0 5px;
+}
+
+.btnAddProductToCart, .btnAddProduct {
     padding: 5px;
     background-color: lightblue;
     border-radius: 5px;
     color: rgb(44, 12, 224);
 }
 
+#homeDivCart {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 15px;
+}
+
+#homeDivCartP {
+    color: white;
+    margin-right: 15px;
+}
+
+#homeDivSectCart, #homeDivSectCartId {
+    background-color: white;
+    color: black;
+}
+
+#homeDivPagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.homeDivPaginationP {
+    color: wheat;
+    font-size: 15px;
+    margin: 5px 0;
+}
 
